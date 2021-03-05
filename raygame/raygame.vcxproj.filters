@@ -50,6 +50,9 @@
     <ClCompile Include="FleeBehavior.cpp">
       <Filter>AI</Filter>
     </ClCompile>
+    <ClCompile Include="WanderBehavior.cpp">
+      <Filter>AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -86,6 +89,9 @@
       <Filter>AI</Filter>
     </ClInclude>
     <ClInclude Include="FleeBehavior.h">
+      <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="WanderBehavior.h">
       <Filter>AI</Filter>
     </ClInclude>
   </ItemGroup>
