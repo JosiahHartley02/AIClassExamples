@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "raylib.h"
 #include "Player.h"
+#include "SeekBehavior.h"
 
 bool Game::m_gameOver = false;
 Scene** Game::m_scenes = new Scene*;
@@ -26,8 +27,13 @@ void Game::start()
 	m_camera->offset = { (float)screenWidth / 2, (float)screenHeight / 2 };
 	m_camera->target = { (float)screenWidth / 2, (float)screenHeight / 2 };
 	m_camera->zoom = 1;
-	Player* player = new Player(10, 10, 5, "Images/player.png", 1);
-	Actor* enemy = new Actor(20, 10, 5, "Images/enemy.png", 1);
+
+	Player* player = new Player(10, 10, 5, "Images/player.png", 1,10);
+	Agent* enemy = new Agent(20, 20, 1, "Images/enemy.png", 10,10);
+
+	SeekBehavior* seek = new SeekBehavior(player);
+	enemy->addBehavior(seek);
+
 	Scene* scene = new Scene();
 	scene->addActor(player);
 	scene->addActor(enemy);

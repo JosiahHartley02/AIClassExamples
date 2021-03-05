@@ -4,6 +4,22 @@
 #include "raylib.h"
 #include "Sprite.h"
 
+Actor::Actor()
+{
+    m_globalTransform = new MathLibrary::Matrix3();
+    m_localTransform = new MathLibrary::Matrix3();
+    m_rotation = new MathLibrary::Matrix3();
+    m_translation = new MathLibrary::Matrix3();
+    m_scale = new MathLibrary::Matrix3();
+
+    m_icon = ' ';
+    setLocalPosition(MathLibrary::Vector2(0, 0));
+    m_velocity = MathLibrary::Vector2();
+    m_collisionRadius = 0;
+    m_childCount = 0;
+    m_maxSpeed = 1;
+}
+
 Actor::~Actor()
 {
     delete m_globalTransform;
@@ -265,7 +281,26 @@ void Actor::update(float deltaTime)
 
     //Increase position by the current velocity
     translate(m_velocity * deltaTime);
+
+    //Teleport Actor to opposite side of screen if actor attenpts to leave the screen
+    if (getWorldPosition().x > GetScreenWidth() / 32)
+    {
+        setWorldPostion(MathLibrary::Vector2(0, getWorldPosition().y));
+    }
+    else if (getWorldPosition().x < 0)
+    {
+        setWorldPostion(MathLibrary::Vector2(GetScreenWidth() / 32, getWorldPosition().y));
+    }
+    if (getWorldPosition().y > GetScreenHeight() / 32)
+    {
+        setWorldPostion(MathLibrary::Vector2(getWorldPosition().x, 0));
+    }
+    else if (getWorldPosition().y < 0)
+    {
+        setWorldPostion(MathLibrary::Vector2(getWorldPosition().x, GetScreenHeight() / 32));
+    }
 }
+
 
 void Actor::draw()
 {
@@ -299,7 +334,7 @@ void Actor::updateFacing()
     if (m_velocity.getMagnitude() <= 0)
         return;
 
-    getForward() = m_velocity.getNormalized();
+    setForward(m_velocity.getNormalized());
 }
 
 void Actor::updateGlobalTransform()
