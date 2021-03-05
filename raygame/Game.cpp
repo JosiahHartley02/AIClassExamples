@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "Player.h"
 #include "SeekBehavior.h"
+#include "FleeBehavior.h"
 
 bool Game::m_gameOver = false;
 Scene** Game::m_scenes = new Scene*;
@@ -32,7 +33,8 @@ void Game::start()
 	Agent* enemy = new Agent(20, 20, 1, "Images/enemy.png", 10,10);
 
 	SeekBehavior* seek = new SeekBehavior(player);
-	enemy->addBehavior(seek);
+	FleeBehavior* flee = new FleeBehavior(player);
+	enemy->addBehavior(flee);
 
 	Scene* scene = new Scene();
 	scene->addActor(player);
