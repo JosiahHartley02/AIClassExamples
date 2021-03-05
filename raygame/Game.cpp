@@ -32,8 +32,9 @@ void Game::start()
 	Player* player = new Player(10, 10, 5, "Images/player.png", 1,10);
 	Agent* enemy = new Agent(20, 20, 1, "Images/enemy.png", 10,10);
 
-	SeekBehavior* seek = new SeekBehavior(player);
-	FleeBehavior* flee = new FleeBehavior(player);
+	SeekBehavior* seek = new SeekBehavior(player,1,5);
+	FleeBehavior* flee = new FleeBehavior(player,1,10);
+	enemy->addBehavior(seek);
 	enemy->addBehavior(flee);
 
 	Scene* scene = new Scene();

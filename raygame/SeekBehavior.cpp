@@ -6,12 +6,21 @@ SeekBehavior::SeekBehavior()
 {
 	m_target = nullptr;
 	m_seekForce = 1;
+	m_socialDistance = 0;
 }
 
 SeekBehavior::SeekBehavior(Actor* target,float seekForce)
 {
 	m_target = target;
 	m_seekForce = seekForce;
+	m_socialDistance = 0;
+}
+
+SeekBehavior::SeekBehavior(Actor* target, float seekForce, float socialDistancing)
+{
+	m_target = target;
+	m_seekForce = seekForce;
+	m_socialDistance = socialDistancing;
 }
 
 MathLibrary::Vector2 SeekBehavior::calculateForce(Agent* agent)
@@ -28,5 +37,9 @@ MathLibrary::Vector2 SeekBehavior::calculateForce(Agent* agent)
 void SeekBehavior::update(Agent* agent, float deltaTime)
 {
 	if (agent)
-		agent->addForce(calculateForce(agent));
+	{
+		MathLibrary::Vector2 distance = (MathLibrary::Vector2(m_target->getWorldPosition() - agent->getWorldPosition()));
+		if (distance.getMagnitude() > m_socialDistance)
+			agent->addForce(calculateForce(agent));		
+	}
 }

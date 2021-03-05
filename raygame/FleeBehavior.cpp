@@ -6,12 +6,21 @@ FleeBehavior::FleeBehavior()
 {
 	m_target = nullptr;
 	m_fleeForce = 1;
+	m_socialDistance = 0;
 }
 
 FleeBehavior::FleeBehavior(Actor* target, float seekForce)
 {
 	m_target = target;
 	m_fleeForce = seekForce;
+	m_socialDistance = 0;
+}
+
+FleeBehavior::FleeBehavior(Actor* target, float fleeForce, float socialDistancing)
+{
+	m_target = target;
+	m_fleeForce = fleeForce;
+	m_socialDistance = socialDistancing;
 }
 
 MathLibrary::Vector2 FleeBehavior::calculateForce(Agent* agent)
@@ -28,5 +37,9 @@ MathLibrary::Vector2 FleeBehavior::calculateForce(Agent* agent)
 void FleeBehavior::update(Agent* agent, float deltaTime)
 {
 	if (agent)
-		agent->addForce(calculateForce(agent));
+	{
+		MathLibrary::Vector2 distance = (MathLibrary::Vector2(m_target->getWorldPosition() - agent->getWorldPosition()));
+		if (distance.getMagnitude() < m_socialDistance)
+			agent->addForce(calculateForce(agent));
+	}
 }
