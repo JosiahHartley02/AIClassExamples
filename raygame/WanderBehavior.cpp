@@ -4,25 +4,27 @@
 
 WanderBehavior::WanderBehavior()
 {
-	m_target = nullptr;
+	m_target = MathLibrary::Vector2(NULL,NULL);
 	m_wanderForce = 1;
+	m_jitter = 1;
 }
 
-WanderBehavior::WanderBehavior(Actor* target, float wanderForce)
+WanderBehavior::WanderBehavior(MathLibrary::Vector2 target, float wanderForce, float radius)
 {
 	m_target = target;
 	m_wanderForce = wanderForce;
+	m_radius = radius;
+	m_jitter = 1;
 }
 
 MathLibrary::Vector2 WanderBehavior::calculateForce(Agent* agent)
 {
-	//Find the direction to move in
-	MathLibrary::Vector2 direction = MathLibrary::Vector2::normalize(m_target->getWorldPosition() - agent->getWorldPosition());
-	//Scale the direction vector by the seekForce
-	MathLibrary::Vector2 desiredVelocity = direction * m_wanderForce;
-	//Subtract current velocity from desired velocity to find steering force
-	MathLibrary::Vector2 steeringForce = desiredVelocity - agent->getVelocity();
-	return steeringForce;
+	//Start with Random Target somewhere congruent with the radius of this agent
+	m_target;
+	//Add a random vector to the the Random Target with a magnitude specified by a jitter amount
+	//Bring the Random Target to be congruent with the perimeter of the radius by normalizing and scaling by radius
+	//Add the agents current vector multiplied by a random distance to the random target
+	//Return the random target
 }
 
 void WanderBehavior::update(Agent* agent, float deltaTime)
