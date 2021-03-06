@@ -105,5 +105,14 @@
     <Image Include="Images\enemy.png">
       <Filter>Textures</Filter>
     </Image>
+    <Image Include="Images\Seeker.png">
+      <Filter>Textures</Filter>
+    </Image>
+    <Image Include="Images\Wanderer.png">
+      <Filter>Textures</Filter>
+    </Image>
+    <Image Include="Images\Fleer.png">
+      <Filter>Textures</Filter>
+    </Image>
   </ItemGroup>
 </Project>

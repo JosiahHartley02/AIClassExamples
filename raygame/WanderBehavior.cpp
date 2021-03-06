@@ -9,27 +9,30 @@ WanderBehavior::WanderBehavior()
 	m_jitter = 1;
 }
 
-WanderBehavior::WanderBehavior(MathLibrary::Vector2 target, float wanderForce, float radius)
+WanderBehavior::WanderBehavior(MathLibrary::Vector2 target, float wanderForce, float radius, float jitter)
 {
 	m_target = target;
 	m_wanderForce = wanderForce;
 	m_radius = radius;
-	m_jitter = 1;
+	m_jitter = jitter;
 }
 
 MathLibrary::Vector2 WanderBehavior::calculateForce(Agent* agent)
 {
-	//create a random degree between 0 and 360
-	float theta = rand() / RAND_MAX/360;
+	//create a random degree between 0 and 360 then converts it to radians
+	float theta = (rand() / (RAND_MAX / 360)) * (3.14159265359/180);	
 	//Start with Random Target somewhere congruent with the radius of this agent
-	m_target = MathLibrary::Vector2((cos(theta * m_radius)), (sin(theta * m_radius)));
+	MathLibrary::Vector2 randomTarget = MathLibrary::Vector2((cos(theta) * m_radius), (sin(theta) * m_radius));
 	//Add a random vector to the the Random Target with a magnitude specified by a jitter amount
-	theta = rand() / RAND_MAX / 360;
-	m_target = MathLibrary::Vector2(m_target.x + cos(theta * m_jitter), m_target.y + sin(theta * m_jitter));
+	theta = (rand() / (RAND_MAX / 360)) * (3.14159265359 / 180);
+	randomTarget = MathLibrary::Vector2(randomTarget.x + cos(theta) * m_jitter, randomTarget.y + sin(theta) * m_jitter);
 	//Bring the Random Target to be congruent with the perimeter of the radius by normalizing and scaling by radius
+	randomTarget = (randomTarget / randomTarget.getMagnitude()) * m_radius;
 	//Add the agents current vector multiplied by a random distance to the random target
+	theta = rand() / (RAND_MAX / 15);
+	randomTarget = randomTarget + (agent->getForward() * theta);
 	//Return the random target
-	return MathLibrary::Vector2();
+	return randomTarget;
 }
 
 void WanderBehavior::update(Agent* agent, float deltaTime)

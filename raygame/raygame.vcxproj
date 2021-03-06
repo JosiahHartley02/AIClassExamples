@@ -177,9 +177,12 @@
   <ItemGroup>
     <Image Include="Images\bullet.png" />
     <Image Include="Images\enemy.png" />
+    <Image Include="Images\Fleer.png" />
     <Image Include="Images\player.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>
+    <Image Include="Images\Seeker.png" />
+    <Image Include="Images\Wanderer.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

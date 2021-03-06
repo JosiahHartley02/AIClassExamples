@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "SeekBehavior.h"
 #include "FleeBehavior.h"
+#include "WanderBehavior.h"
 
 bool Game::m_gameOver = false;
 Scene** Game::m_scenes = new Scene*;
@@ -30,16 +31,24 @@ void Game::start()
 	m_camera->zoom = 1;
 
 	Player* player = new Player(10, 10, 5, "Images/player.png", 1,10);
-	Agent* enemy = new Agent(20, 20, 1, "Images/enemy.png", 10,10);
+	Agent* wanderer = new Agent(20, 20, 1, "Images/Wanderer.png", 1, 5);
+	Agent* seeker = new Agent(15, 10, 1, "Images/Seeker.png", 1, 5);
+	Agent* fleer = new Agent (10, 20, 1, "Images/Fleer.png", 1, 5);
 
-	SeekBehavior* seek = new SeekBehavior(player,1,5);
-	FleeBehavior* flee = new FleeBehavior(player,1,10);
-	enemy->addBehavior(seek);
-	enemy->addBehavior(flee);
+	SeekBehavior* seek = new SeekBehavior(fleer,1,5);
+	FleeBehavior* flee = new FleeBehavior(seeker,1,10);
+	WanderBehavior* wander = new WanderBehavior(MathLibrary::Vector2(0, 0), 1, 5);
+		
+	wanderer->addBehavior(wander);
+	seeker->addBehavior(seek);
+	fleer->addBehavior(flee);
 
 	Scene* scene = new Scene();
+
 	scene->addActor(player);
-	scene->addActor(enemy);
+	scene->addActor(wanderer);
+	scene->addActor(seeker);
+	scene->addActor(fleer);
 	addScene(scene);
 	SetTargetFPS(60);
 }
@@ -57,7 +66,7 @@ void Game::draw()
 	BeginDrawing();
 
 	BeginMode2D(*m_camera);
-	ClearBackground(BLACK);
+	ClearBackground(GRAY);
 
 	for (int i = 0; i < m_sceneCount; i++)
 	{

@@ -36,7 +36,7 @@ MathLibrary::Vector2 FleeBehavior::calculateForce(Agent* agent)
 
 void FleeBehavior::update(Agent* agent, float deltaTime)
 {
-	if (agent)
+	if (agent && m_target)
 	{
 		MathLibrary::Vector2 distance = (MathLibrary::Vector2(m_target->getWorldPosition() - agent->getWorldPosition()));
 		if (distance.getMagnitude() < m_socialDistance)
