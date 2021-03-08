@@ -3,18 +3,11 @@
 
 class Actor;
 
-class SeekBehavior : public SteeringBehavior
+class ArrivalBehavior : public SteeringBehavior
 {
 public:
-	SeekBehavior();
-	SeekBehavior(Actor* target, float seekForce = 1);
-	/// <summary>
-	/// This Initializer allows for the programmer to specify the distance they want the agent to maintain from the target
-	/// </summary>
-	/// <param name="target">the actor that this agent will follow from a distance</param>
-	/// <param name="seekForce">the weight of how much this agent wants to follow the target</param>
-	/// <param name="socialDistancing">This is the distance that the actor will maintain, the actor will stop seeking if too close</param>
-	SeekBehavior(Actor* target, float seekForce, float socialDistancing);
+	ArrivalBehavior();
+	ArrivalBehavior(Actor* target, float arrivalForce = 1, float radius = 1);
 
 	Actor* getTarget() { return m_target; }
 	void setTarget(Actor* target) { m_target = target; }
@@ -24,7 +17,7 @@ public:
 private:
 	//The agent that the behavior is seeking
 	Actor* m_target;
-	float m_seekForce;
-	float m_socialDistance;
+	float m_arrivalForce;
+	float m_radius;
 };
 

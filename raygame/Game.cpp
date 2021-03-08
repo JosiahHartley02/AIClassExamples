@@ -6,6 +6,7 @@
 #include "WanderBehavior.h"
 #include "PursueBehavior.h"
 #include "EvadeBehavior.h"
+#include "ArrivalBehavior.h"
 
 bool Game::m_gameOver = false;
 Scene** Game::m_scenes = new Scene*;
@@ -35,18 +36,22 @@ void Game::start()
 	Player* player = new Player(0, 0, 5, "Images/player.png", 1,10);
 	Agent* pursuer = new Agent(15, 15, 1, "Images/Seeker.png", 2, 5);
 	Agent* wanderer = new Agent(15, 10, 1, "Images/Wanderer.png", 1, 5);
+	Agent* arriver = new Agent(15, 15, 1, "Images/enemy.png", 2, 5);
 
 	Scene* scene = new Scene();
 
 	PursueBehavior* pursue = new PursueBehavior(wanderer, 1.5f);
 	WanderBehavior* wander = new WanderBehavior(1);
+	ArrivalBehavior* arrival = new ArrivalBehavior(wanderer, 1.5f, 4);
 
 	pursuer->addBehavior(pursue);
 	wanderer->addBehavior(wander);
+	arriver->addBehavior(arrival);
 
 	scene->addActor(player);
 	scene->addActor(pursuer);
 	scene->addActor(wanderer);
+	scene->addActor(arriver);
 	
 	addScene(scene);
 	SetTargetFPS(60);
