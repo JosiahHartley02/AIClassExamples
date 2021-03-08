@@ -53,6 +53,15 @@
     <ClCompile Include="WanderBehavior.cpp">
       <Filter>AI</Filter>
     </ClCompile>
+    <ClCompile Include="PursueBehavior.cpp">
+      <Filter>AI</Filter>
+    </ClCompile>
+    <ClCompile Include="EvadeBehavior.cpp">
+      <Filter>AI</Filter>
+    </ClCompile>
+    <ClCompile Include="ArrivalBehavior.cpp">
+      <Filter>AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -92,6 +101,15 @@
       <Filter>AI</Filter>
     </ClInclude>
     <ClInclude Include="WanderBehavior.h">
+      <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="PursueBehavior.h">
+      <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="EvadeBehavior.h">
+      <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrivalBehavior.h">
       <Filter>AI</Filter>
     </ClInclude>
   </ItemGroup>

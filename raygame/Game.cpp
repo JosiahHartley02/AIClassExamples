@@ -4,6 +4,8 @@
 #include "SeekBehavior.h"
 #include "FleeBehavior.h"
 #include "WanderBehavior.h"
+#include "PursueBehavior.h"
+#include "EvadeBehavior.h"
 
 bool Game::m_gameOver = false;
 Scene** Game::m_scenes = new Scene*;
@@ -30,25 +32,22 @@ void Game::start()
 	m_camera->target = { (float)screenWidth / 2, (float)screenHeight / 2 };
 	m_camera->zoom = 1;
 
-	Player* player = new Player(10, 10, 5, "Images/player.png", 1,10);
-	Agent* wanderer = new Agent(20, 20, 1, "Images/Wanderer.png", 1, 5);
-	Agent* seeker = new Agent(15, 10, 1, "Images/Seeker.png", 1, 5);
-	Agent* fleer = new Agent (10, 20, 1, "Images/Fleer.png", 1, 5);
-
-	SeekBehavior* seek = new SeekBehavior(fleer,1,5);
-	FleeBehavior* flee = new FleeBehavior(seeker,1,10);
-	WanderBehavior* wander = new WanderBehavior(MathLibrary::Vector2(0, 0), 1, 5);
-		
-	wanderer->addBehavior(wander);
-	seeker->addBehavior(seek);
-	fleer->addBehavior(flee);
+	Player* player = new Player(0, 0, 5, "Images/player.png", 1,10);
+	Agent* pursuer = new Agent(15, 15, 1, "Images/Seeker.png", 2, 5);
+	Agent* wanderer = new Agent(15, 10, 1, "Images/Wanderer.png", 1, 5);
 
 	Scene* scene = new Scene();
 
+	PursueBehavior* pursue = new PursueBehavior(wanderer, 1.5f);
+	WanderBehavior* wander = new WanderBehavior(1);
+
+	pursuer->addBehavior(pursue);
+	wanderer->addBehavior(wander);
+
 	scene->addActor(player);
+	scene->addActor(pursuer);
 	scene->addActor(wanderer);
-	scene->addActor(seeker);
-	scene->addActor(fleer);
+	
 	addScene(scene);
 	SetTargetFPS(60);
 }

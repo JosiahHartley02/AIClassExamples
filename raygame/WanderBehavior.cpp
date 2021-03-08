@@ -9,9 +9,9 @@ WanderBehavior::WanderBehavior()
 	m_jitter = 1;
 }
 
-WanderBehavior::WanderBehavior(MathLibrary::Vector2 target, float wanderForce, float radius, float jitter)
+WanderBehavior::WanderBehavior(float wanderForce, float radius, float jitter)
 {
-	m_target = target;
+	m_target = MathLibrary::Vector2(0,0);
 	m_wanderForce = wanderForce;
 	m_radius = radius;
 	m_jitter = jitter;
