@@ -33,16 +33,16 @@ void Game::start()
 	m_camera->target = { (float)screenWidth / 2, (float)screenHeight / 2 };
 	m_camera->zoom = 1;
 
-	Player* player = new Player(0, 0, 5, "Images/player.png", 1,10);
-	Agent* pursuer = new Agent(15, 15, 1, "Images/Seeker.png", 2, 5);
-	Agent* wanderer = new Agent(15, 10, 1, "Images/Wanderer.png", 1, 5);
-	Agent* arriver = new Agent(15, 15, 1, "Images/enemy.png", 2, 5);
+	Player* player = new Player(10,10, 5, "Images/player.png", 1,10);
+	Agent* pursuer = new Agent(15, 15, 1, "Images/Seeker.png", 1, 1);
+	Agent* wanderer = new Agent(15, 10, 1, "Images/Wanderer.png", 0.5f, 1);
+	Agent* arriver = new Agent(15, 15, 1, "Images/enemy.png", 1, 1);
 
 	Scene* scene = new Scene();
 
-	PursueBehavior* pursue = new PursueBehavior(wanderer, 1.5f);
-	WanderBehavior* wander = new WanderBehavior(1);
-	ArrivalBehavior* arrival = new ArrivalBehavior(wanderer, 1.5f, 4);
+	PursueBehavior* pursue = new PursueBehavior(player, 1);
+	WanderBehavior* wander = new WanderBehavior(0.5f);
+	ArrivalBehavior* arrival = new ArrivalBehavior(player, 1, 4);
 
 	pursuer->addBehavior(pursue);
 	wanderer->addBehavior(wander);

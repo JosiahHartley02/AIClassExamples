@@ -1,4 +1,3 @@
-
 #include <cmath>
 #include "Actor.h"
 #include "raylib.h"

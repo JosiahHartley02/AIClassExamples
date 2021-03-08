@@ -1,6 +1,7 @@
 #include "ArrivalBehavior.h"
 #include "Agent.h"
 #include "Actor.h"
+#include "raylib.h"
 
 ArrivalBehavior::ArrivalBehavior()
 {
@@ -18,9 +19,13 @@ ArrivalBehavior::ArrivalBehavior(Actor* target, float arrivalForce, float radius
 MathLibrary::Vector2 ArrivalBehavior::calculateForce(Agent* agent)
 {
 	//Find the direction to move in
-	MathLibrary::Vector2 distance = MathLibrary::Vector2(m_target->getWorldPosition() - agent->getWorldPosition());
+	MathLibrary::Vector2 direction = MathLibrary::Vector2::normalize(m_target->getWorldPosition() - agent->getWorldPosition());
+	float distance = MathLibrary::Vector2(m_target->getWorldPosition() - agent->getWorldPosition()).getMagnitude();
 	//Scale the direction vector by the seekForce
-	MathLibrary::Vector2 desiredVelocity = MathLibrary::Vector2::normalize(distance / m_radius) * m_arrivalForce;
+	MathLibrary::Vector2 desiredVelocity = direction * m_arrivalForce;
+	//apply the arrival behavior
+	if (m_radius > distance)
+		desiredVelocity = desiredVelocity * (distance / m_radius);
 	//Subtract current velocity from desired velocity to find steering force
 	MathLibrary::Vector2 steeringForce = desiredVelocity - agent->getVelocity();
 	return steeringForce;
