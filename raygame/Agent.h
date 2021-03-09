@@ -28,6 +28,7 @@ public:
     Agent(float x, float y, float collisionRadius, const char* spriteFilePath, float maxSpeed, float maxForce);
 
     void update(float deltatime) override;
+    void draw() override;
 
     float getMaxForce() { return m_maxForce; }
     void setMaxForce(float maxForce) { m_maxForce = maxForce; }

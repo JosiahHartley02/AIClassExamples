@@ -35,23 +35,23 @@ void Game::start()
 
 	Player* player = new Player(10,10, 5, "Images/player.png", 1,10);
 	Agent* pursuer = new Agent(15, 15, 1, "Images/Seeker.png", 1, 1);
-	Agent* wanderer = new Agent(15, 10, 1, "Images/Wanderer.png", 0.5f, 1);
+	Agent* wanderer = new Agent(15, 10, 1, "Images/Wanderer.png", 1, 1);
 	Agent* arriver = new Agent(15, 15, 1, "Images/enemy.png", 1, 1);
 
 	Scene* scene = new Scene();
 
-	PursueBehavior* pursue = new PursueBehavior(player, 1);
-	WanderBehavior* wander = new WanderBehavior(0.5f);
-	ArrivalBehavior* arrival = new ArrivalBehavior(player, 1, 4);
+	PursueBehavior* pursue = new PursueBehavior(wanderer, 1);
+	WanderBehavior* wander = new WanderBehavior(1);
+	ArrivalBehavior* arrival = new ArrivalBehavior(player, 1, 10);
 
 	pursuer->addBehavior(pursue);
 	wanderer->addBehavior(wander);
 	arriver->addBehavior(arrival);
 
+	scene->addActor(arriver);
 	scene->addActor(player);
 	scene->addActor(pursuer);
 	scene->addActor(wanderer);
-	scene->addActor(arriver);
 	
 	addScene(scene);
 	SetTargetFPS(60);
@@ -70,7 +70,7 @@ void Game::draw()
 	BeginDrawing();
 
 	BeginMode2D(*m_camera);
-	ClearBackground(GRAY);
+	ClearBackground(BLACK);
 
 	for (int i = 0; i < m_sceneCount; i++)
 	{

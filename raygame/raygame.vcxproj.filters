@@ -62,6 +62,9 @@
     <ClCompile Include="ArrivalBehavior.cpp">
       <Filter>AI</Filter>
     </ClCompile>
+    <ClCompile Include="Behavior.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">

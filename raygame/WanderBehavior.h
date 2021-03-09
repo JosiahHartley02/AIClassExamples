@@ -11,10 +11,14 @@ public:
 
 	MathLibrary::Vector2 calculateForce(Agent* agent) override;
 	void update(Agent* agent, float deltaTime) override;
+	void draw(Agent* agent) override;
 private:
 	//The agent that the behavior is seeking
 	MathLibrary::Vector2 m_target;
-	float m_wanderForce;
 	float m_radius;
 	float m_jitter;
+	MathLibrary::Vector2 m_randPerPos;
+	MathLibrary::Vector2 m_randVecPos;
+	MathLibrary::Vector2 m_normPerPos;
+	MathLibrary::Vector2 m_randPos;
 };
