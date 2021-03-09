@@ -17,7 +17,6 @@ public:
 private:
 	//The agent that the behavior is seeking
 	Actor* m_target;
-	float m_arrivalForce;
 	float m_radius;
 };
 

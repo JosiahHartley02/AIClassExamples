@@ -5,21 +5,20 @@
 FleeBehavior::FleeBehavior()
 {
 	m_target = nullptr;
-	m_fleeForce = 1;
 	m_socialDistance = 0;
 }
 
-FleeBehavior::FleeBehavior(Actor* target, float seekForce)
+FleeBehavior::FleeBehavior(Actor* target, float fleeForce)
 {
 	m_target = target;
-	m_fleeForce = seekForce;
+	setForceScale(fleeForce);
 	m_socialDistance = 0;
 }
 
 FleeBehavior::FleeBehavior(Actor* target, float fleeForce, float socialDistancing)
 {
 	m_target = target;
-	m_fleeForce = fleeForce;
+	setForceScale(fleeForce);
 	m_socialDistance = socialDistancing;
 }
 
@@ -28,7 +27,7 @@ MathLibrary::Vector2 FleeBehavior::calculateForce(Agent* agent)
 	//Find the direction to move in
 	MathLibrary::Vector2 direction = MathLibrary::Vector2::normalize(agent->getWorldPosition() - m_target->getWorldPosition());
 	//Scale the direction vector by the seekForce
-	MathLibrary::Vector2 desiredVelocity = direction * m_fleeForce;
+	MathLibrary::Vector2 desiredVelocity = direction * getForceScale();
 	//Subtract current velocity from desired velocity to find steering force
 	MathLibrary::Vector2 steeringForce = desiredVelocity - agent->getVelocity();
 	return  steeringForce;

@@ -12,6 +12,8 @@ bool Game::m_gameOver = false;
 Scene** Game::m_scenes = new Scene*;
 int Game::m_sceneCount = 0;
 int Game::m_currentSceneIndex = 0;
+int Game::m_screenWidth = 1024;
+int Game::m_screenHeight = 720;
 
 
 Game::Game()
@@ -25,33 +27,37 @@ Game::Game()
 
 void Game::start()
 {
-	int screenWidth = 1024;
-	int screenHeight = 760;
+	m_screenWidth = 1024;
+	m_screenHeight = 760;
 
-	InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
-	m_camera->offset = { (float)screenWidth / 2, (float)screenHeight / 2 };
-	m_camera->target = { (float)screenWidth / 2, (float)screenHeight / 2 };
+	InitWindow(m_screenWidth, m_screenHeight, "raylib [core] example - basic window");
+	m_camera->offset = { (float)m_screenWidth / 2, (float)m_screenHeight / 2 };
+	m_camera->target = { (float)m_screenWidth / 2, (float)m_screenHeight / 2 };
 	m_camera->zoom = 1;
 
 	Player* player = new Player(10,10, 5, "Images/player.png", 1,10);
 	Agent* pursuer = new Agent(15, 15, 1, "Images/Seeker.png", 1, 1);
 	Agent* wanderer = new Agent(15, 10, 1, "Images/Wanderer.png", 0.5f, 1);
 	Agent* arriver = new Agent(15, 15, 1, "Images/enemy.png", 1, 1);
+	Agent* seeker = new Agent(15, 15, 1, "Images/enemy.png", 0.5f, 1);
 
 	Scene* scene = new Scene();
 
 	PursueBehavior* pursue = new PursueBehavior(player, 1);
-	WanderBehavior* wander = new WanderBehavior(0.5f);
+	WanderBehavior* wander = new WanderBehavior(.5f,1);
 	ArrivalBehavior* arrival = new ArrivalBehavior(player, 1, 4);
+	SeekBehavior* seek = new SeekBehavior(wanderer,0.5f);
 
 	pursuer->addBehavior(pursue);
 	wanderer->addBehavior(wander);
 	arriver->addBehavior(arrival);
+	seeker->addBehavior(seek);
 
 	scene->addActor(player);
 	scene->addActor(pursuer);
 	scene->addActor(wanderer);
 	scene->addActor(arriver);
+	scene->addActor(seeker);
 	
 	addScene(scene);
 	SetTargetFPS(60);
@@ -70,7 +76,7 @@ void Game::draw()
 	BeginDrawing();
 
 	BeginMode2D(*m_camera);
-	ClearBackground(GRAY);
+	ClearBackground(BLACK);
 
 	for (int i = 0; i < m_sceneCount; i++)
 	{
@@ -225,3 +231,4 @@ void Game::setGameOver(bool value)
 {
 	Game::m_gameOver = value;
 }
+

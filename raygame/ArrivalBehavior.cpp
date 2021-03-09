@@ -6,13 +6,13 @@
 ArrivalBehavior::ArrivalBehavior()
 {
 	m_target = nullptr;
-	m_arrivalForce = 1;
+	setForceScale(1);
 }
 
 ArrivalBehavior::ArrivalBehavior(Actor* target, float arrivalForce, float radius)
 {
 	m_target = target;
-	m_arrivalForce = arrivalForce;
+	setForceScale(arrivalForce);
 	m_radius = radius;
 }
 
@@ -22,7 +22,7 @@ MathLibrary::Vector2 ArrivalBehavior::calculateForce(Agent* agent)
 	MathLibrary::Vector2 direction = MathLibrary::Vector2::normalize(m_target->getWorldPosition() - agent->getWorldPosition());
 	float distance = MathLibrary::Vector2(m_target->getWorldPosition() - agent->getWorldPosition()).getMagnitude();
 	//Scale the direction vector by the seekForce
-	MathLibrary::Vector2 desiredVelocity = direction * m_arrivalForce;
+	MathLibrary::Vector2 desiredVelocity = direction * getForceScale();
 	//apply the arrival behavior
 	if (m_radius > distance)
 		desiredVelocity = desiredVelocity * (distance / m_radius);
