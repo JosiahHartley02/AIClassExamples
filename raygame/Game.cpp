@@ -37,18 +37,21 @@ void Game::start()
 	Agent* pursuer = new Agent(15, 15, 1, "Images/Seeker.png", 1, 1);
 	Agent* wanderer = new Agent(15, 10, 1, "Images/Wanderer.png", 1, 1);
 	Agent* arriver = new Agent(15, 15, 1, "Images/enemy.png", 1, 1);
+	Agent* evader = new Agent(15, 15, 1, "Images/Wanderer.png", 1, 1);
 
 	Scene* scene = new Scene();
 
 	PursueBehavior* pursue = new PursueBehavior(wanderer, 1);
 	WanderBehavior* wander = new WanderBehavior(1);
 	ArrivalBehavior* arrival = new ArrivalBehavior(player, 1, 10);
+	EvadeBehavior* evade = new EvadeBehavior(player, 0.5f);
 
 	pursuer->addBehavior(pursue);
 	wanderer->addBehavior(wander);
 	arriver->addBehavior(arrival);
+	evader->addBehavior(evade);
 
-	scene->addActor(arriver);
+	scene->addActor(evader);
 	scene->addActor(player);
 	scene->addActor(pursuer);
 	scene->addActor(wanderer);
