@@ -19,7 +19,7 @@ ArrivalBehavior::ArrivalBehavior(Actor* target, float arrivalForce, float radius
 MathLibrary::Vector2 ArrivalBehavior::calculateForce(Agent* agent)
 {
 	//Find the direction to move in
-	MathLibrary::Vector2 direction = MathLibrary::Vector2::normalize(m_target->getWorldPosition() - agent->getWorldPosition());
+	MathLibrary::Vector2 direction = MathLibrary::Vector2::normalize(m_target->getWorldPosition() + m_target->getVelocity() - agent->getWorldPosition());
 	float distance = MathLibrary::Vector2(m_target->getWorldPosition() - agent->getWorldPosition()).getMagnitude();
 	//apply the arrival behavior
 	if (m_radius > distance)

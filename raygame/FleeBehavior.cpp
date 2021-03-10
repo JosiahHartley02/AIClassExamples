@@ -30,16 +30,27 @@ MathLibrary::Vector2 FleeBehavior::calculateForce(Agent* agent)
 	//Scale the direction vector by the seekForce
 	MathLibrary::Vector2 desiredVelocity = direction * getForce();
 	//Subtract current velocity from desired velocity to find steering force
-	MathLibrary::Vector2 steeringForce = desiredVelocity - agent->getVelocity();
-	return  steeringForce;
+	m_steeringForce = desiredVelocity - agent->getVelocity();
+	return  m_steeringForce;
 }
 
 void FleeBehavior::update(Agent* agent, float deltaTime)
 {
-	if (agent && m_target)
-	{
-		MathLibrary::Vector2 distance = (MathLibrary::Vector2(m_target->getWorldPosition() - agent->getWorldPosition()));
-		if (distance.getMagnitude() < m_socialDistance)
-			agent->addForce(calculateForce(agent));
-	}
+	if(agent)
+		agent->addForce(calculateForce(agent));	
+}
+
+void FleeBehavior::draw(Agent* agent)
+{
+	//Draw the steering force
+	DrawLine(agent->getWorldPosition().x * 32,
+		agent->getWorldPosition().y * 32,
+		agent->getWorldPosition().x * 32 + (m_steeringForce.x * 32),
+		agent->getWorldPosition().y * 32 + (m_steeringForce.y * 32),
+		GREEN);
+	DrawLine(agent->getWorldPosition().x * 32,
+		agent->getWorldPosition().y * 32,
+		m_target->getWorldPosition().x * 32,
+		m_target->getWorldPosition().y * 32,
+		RED);
 }

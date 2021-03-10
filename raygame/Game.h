@@ -64,6 +64,8 @@ public:
 
     static void destroy(Actor* actor);
     static void setGameOver(bool value);
+    static void toggleDebug() { m_showDebug = !m_showDebug; }
+    static bool showDebug() { return m_showDebug; }
     static MathLibrary::Matrix3* getWorld();
     void run();
 
@@ -76,6 +78,7 @@ private:
 private:
     Camera2D* m_camera;
     static bool m_gameOver;
+    static bool m_showDebug;
 	static Scene** m_scenes;
     static int m_sceneCount;
     static int m_currentSceneIndex;
