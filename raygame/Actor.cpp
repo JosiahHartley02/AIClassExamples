@@ -259,6 +259,8 @@ void Actor::lookAt(MathLibrary::Vector2 position)
 
 bool Actor::checkCollision(Actor* other)
 {
+    if (other == nullptr)
+        return false;
     float distance = (other->getWorldPosition() - getWorldPosition()).getMagnitude();
     return distance <= m_collisionRadius + other->m_collisionRadius;
 }
@@ -281,23 +283,23 @@ void Actor::update(float deltaTime)
     //Increase position by the current velocity
     translate(m_velocity * deltaTime);
 
-    //Teleport Actor to opposite side of screen if actor attenpts to leave the screen
-    if (getWorldPosition().x > GetScreenWidth() / 32)
-    {
-        setWorldPostion(MathLibrary::Vector2(0, getWorldPosition().y));
-    }
-    else if (getWorldPosition().x < 0)
-    {
-        setWorldPostion(MathLibrary::Vector2(GetScreenWidth() / 32, getWorldPosition().y));
-    }
-    if (getWorldPosition().y > GetScreenHeight() / 32)
-    {
-        setWorldPostion(MathLibrary::Vector2(getWorldPosition().x, 0));
-    }
-    else if (getWorldPosition().y < 0)
-    {
-        setWorldPostion(MathLibrary::Vector2(getWorldPosition().x, GetScreenHeight() / 32));
-    }
+    ////Teleport Actor to opposite side of screen if actor attenpts to leave the screen
+    //if (getWorldPosition().x > GetScreenWidth() / 32)
+    //{
+    //    setWorldPostion(MathLibrary::Vector2(0, getWorldPosition().y));
+    //}
+    //else if (getWorldPosition().x < 0)
+    //{
+    //    setWorldPostion(MathLibrary::Vector2(GetScreenWidth() / 32, getWorldPosition().y));
+    //}
+    //if (getWorldPosition().y > GetScreenHeight() / 32)
+    //{
+    //    setWorldPostion(MathLibrary::Vector2(getWorldPosition().x, 0));
+    //}
+    //else if (getWorldPosition().y < 0)
+    //{
+    //    setWorldPostion(MathLibrary::Vector2(getWorldPosition().x, GetScreenHeight() / 32));
+    //}
 }
 
 

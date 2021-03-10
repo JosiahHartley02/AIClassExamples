@@ -44,9 +44,6 @@
     <ClCompile Include="SeekBehavior.cpp">
       <Filter>AI</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>AI</Filter>
-    </ClCompile>
     <ClCompile Include="FleeBehavior.cpp">
       <Filter>AI</Filter>
     </ClCompile>
@@ -65,10 +62,13 @@
     <ClCompile Include="Behavior.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SimpleEnemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Character.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleEnemy.cpp">
+    <ClCompile Include="Enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -103,9 +103,6 @@
     <ClInclude Include="SteeringBehavior.h">
       <Filter>AI</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>AI</Filter>
-    </ClInclude>
     <ClInclude Include="FleeBehavior.h">
       <Filter>AI</Filter>
     </ClInclude>
@@ -125,6 +122,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SimpleEnemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

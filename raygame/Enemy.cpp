@@ -17,9 +17,9 @@ void Enemy::update(float deltaTime)
 		setWorldPostion(MathLibrary::Vector2(0, getWorldPosition().y));
 	if (getWorldPosition().x < 0)
 		setWorldPostion(MathLibrary::Vector2(Game::getScreenWidth() / 32, getWorldPosition().y));
-	if (getWorldPosition().x > Game::getScreenHeight() / 32)
-		setWorldPostion(MathLibrary::Vector2(0, getWorldPosition().y));
-	if (getWorldPosition().x < 0)
-		setWorldPostion(MathLibrary::Vector2(Game::getScreenHeight() / 32, getWorldPosition().y));
+	if (getWorldPosition().y > Game::getScreenHeight() / 32)
+		setWorldPostion(MathLibrary::Vector2(getWorldPosition().x,0));
+	if (getWorldPosition().y < 0)
+		setWorldPostion(MathLibrary::Vector2(getWorldPosition().x, Game::getScreenHeight() / 32));
 
 }

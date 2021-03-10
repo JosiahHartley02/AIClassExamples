@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "raylib.h"
 #include "Player.h"
+#include "SimpleEnemy.h"
 #include "SeekBehavior.h"
 #include "FleeBehavior.h"
 #include "WanderBehavior.h"
@@ -35,13 +36,14 @@ void Game::start()
 	m_camera->target = { (float)m_screenWidth / 2, (float)m_screenHeight / 2 };
 	m_camera->zoom = 1;
 
-	Player* player = new Player(10,10, 5, "Images/player.png", 1,10);
+	Player* player = new Player(10,10, 1, "Images/player.png", 1,10);
 	Agent* pursuer = new Agent(15, 15, 1, "Images/Seeker.png", 1, 1);
 	Agent* wanderer = new Agent(15, 10, 1, "Images/Wanderer.png", 1, 1);
 	Agent* arriver = new Agent(15, 15, 1, "Images/enemy.png", 1, 1);
 	Agent* evader = new Agent(15, 15, 1, "Images/enemy.png", 1, 1);
 	Agent* fleer = new Agent(25, 15, 1, "Images/Fleer.png", 1, 1);
-	Agent* seeker = new Agent(15, 15, 1, "Images/enemy.png", 1, 1);
+	Agent* seeker = new Agent(15, 15, 1, "Images/enemy.png", 10, 10);
+	SimpleEnemy* simpleEnemy = new SimpleEnemy(15, 15, 0.5f, "Images/Fleer.png", player,1,1,1,1);
 
 	Scene* scene = new Scene();
 
@@ -50,7 +52,7 @@ void Game::start()
 	ArrivalBehavior* arrival = new ArrivalBehavior(player, .5f, 5);
 	EvadeBehavior* evade = new EvadeBehavior(player, 0.5f);
 	FleeBehavior* flee = new FleeBehavior(pursuer, 0.5f);
-	SeekBehavior* seek = new SeekBehavior(player, 1);
+	SeekBehavior* seek = new SeekBehavior(player, 10);
 
 	pursuer->addBehavior(pursue);
 	wanderer->addBehavior(wander);
@@ -58,11 +60,11 @@ void Game::start()
 	evader->addBehavior(evade);
 	fleer->addBehavior(flee);
 	seeker->addBehavior(seek);
+	simpleEnemy->addBehavior(wander);
+	simpleEnemy->addBehavior(seek);
 
-	scene->addActor(arriver);
 	scene->addActor(player);
-	scene->addActor(pursuer);
-	scene->addActor(seeker);
+	scene->addActor(simpleEnemy);
 	
 	addScene(scene);
 	SetTargetFPS(60);

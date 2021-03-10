@@ -15,9 +15,10 @@ class SimpleEnemy : public Enemy
 	using Enemy::Enemy;
 	bool checkTargetInSight();
 
-	void onCollision(Actor* other) override;
+	void onCollision(Character* other);
 	void start() override;
 	void update(float deltaTime) override;
+	void draw() override;
 
 	void setTarget(Actor* target) override;
 private:

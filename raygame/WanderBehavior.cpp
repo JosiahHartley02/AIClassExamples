@@ -22,10 +22,10 @@ MathLibrary::Vector2 WanderBehavior::calculateForce(Agent* agent)
 	//create a random degree between 0 and 360 then converts it to radians
 	float theta = (rand() / (RAND_MAX / 360)) * (3.14159265359/180);	
 	//Start with Random Target somewhere congruent with the radius of this agent
-	m_randPerPos = MathLibrary::Vector2((cos(theta) * m_radius), (sin(theta) * m_radius));
+	m_randPerPos = MathLibrary::Vector2((cosf(theta) * m_radius), (sinf(theta) * m_radius));
 	//Add a random vector to the the Random Target with a magnitude specified by a jitter amount
 	theta = (rand() / (RAND_MAX / 360)) * (3.14159265359 / 180);
-	m_randVecPos = MathLibrary::Vector2(m_randPerPos.x + (cos(theta) * m_jitter), m_randPerPos.y + (sin(theta) * m_jitter));
+	m_randVecPos = MathLibrary::Vector2(m_randPerPos.x + (cosf(theta) * m_jitter), m_randPerPos.y + (sinf(theta) * m_jitter));
 	//Bring the Random Target to be congruent with the perimeter of the radius by normalizing and scaling by radius
 	m_normPerPos = (m_randVecPos / m_randVecPos.getMagnitude()) * m_radius;
 	//Add the agents current vector multiplied by a random distance to the random target

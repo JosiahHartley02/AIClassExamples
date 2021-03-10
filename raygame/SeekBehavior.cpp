@@ -36,7 +36,7 @@ MathLibrary::Vector2 SeekBehavior::calculateForce(Agent* agent)
 
 void SeekBehavior::update(Agent* agent, float deltaTime)
 {
-	if (agent && m_target)
+	if (agent && m_target != nullptr)
 	{
 		MathLibrary::Vector2 distance = (MathLibrary::Vector2(m_target->getWorldPosition() - agent->getWorldPosition()));
 		if (distance.getMagnitude() > m_socialDistance)
@@ -46,6 +46,8 @@ void SeekBehavior::update(Agent* agent, float deltaTime)
 
 void SeekBehavior::draw(Agent* agent)
 {
+	if (m_target == nullptr || agent == nullptr)
+		return;
 	//draw line connecting this agent to the target
 	DrawLine(agent->getWorldPosition().x * 32,
 		agent->getWorldPosition().y * 32,

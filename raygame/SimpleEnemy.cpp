@@ -5,22 +5,35 @@
 bool SimpleEnemy::checkTargetInSight()
 {
     //check if the target is null if so return false
-    //find the direction vector thta represents where the target is relative to the enemy
+    if (getTarget() == nullptr)
+        return false;
+    //find the direction vector that represents where the target is relative to the enemy
+    MathLibrary::Vector2 direction = MathLibrary::Vector2::normalize(getTarget()->getWorldPosition() - getWorldPosition());
     //Find the dot product of the enemy's forward and the direction vector
-    //Find the angle using the dor product
-    //Check if that angle is greater than the enemy's viewing angle(any value you see fit is fine)
-    //Return if the enemy saw the target
+    float dotProduct = MathLibrary::Vector2::dotProduct(getForward(), direction);
+    //Find the angle using the dot product
+    float dotProductAngle = acosf(dotProduct);
+    //Check if that angle is greater than the enemy's viewing angle(any value you see fit is fine) (0.523599 = 30°)
+    if (dotProductAngle < .7)
+        //Return if the enemy saw the target
+        return true;
     return false;
 }
 
-void SimpleEnemy::onCollision(Actor* other)
+void SimpleEnemy::onCollision(Character * other)
 {
     //Check to see if the enemy ran into the player
-    //If the enemy has run into the player, deal damage to the player
-    //If the player's health is less than 0, set the target to be nullptr
+    if (checkCollision(other))
+    {
+        //If the enemy has run into the player, deal damage to the player
+        other->takeDamage(1);
+        //If the player's health is less than 0, set the target to be nullptr
+        if (other->getHealth() == 0)
+            setTarget(nullptr);
+    }
 }
 
-void SimpleEnemy::start()
+    void SimpleEnemy::start()
 {
     //Call the base start function
     Enemy::start();
@@ -36,15 +49,35 @@ void SimpleEnemy::start()
 void SimpleEnemy::update(float deltaTime)
 {
     //Create a switch statement for the state machine
-    //The switch should transition to the wander state if the target is not in sight
-    //You can set the wander force to be whatever value you see fit but be sure to
-    //set the seek force to be 0
-
-    //The switch should transtition to the seek state if the target is in 
-    //You can set the seek force to be whatever value you see fit, but be sure to
-    //set the wander force to be 0.
-
+    switch (checkTargetInSight())
+    {
+        case false:        
+            m_wander->setForce(1);
+            m_seek->setForce(0);
+            break;
+        case true:
+            m_seek->setForce(10);
+            m_wander->setForce(0);
+            break;
+    }
+    // BehaviorType* behavior = dynamic_cast<BehaviorType*>(m_behaviors[i]);
+    onCollision(dynamic_cast<Character*>(getTarget()));
     Enemy::update(deltaTime);
+}
+
+void SimpleEnemy::draw()
+{
+    MathLibrary::Vector2 getRight = MathLibrary::Vector2(getWorldPosition().x + 1, getWorldPosition().y);
+    float dotProduct = MathLibrary::Vector2::dotProduct(getForward(), getRight);
+    float forwardVector = atanf(getForward().y / getForward().x);
+    MathLibrary::Vector2 referenceVector = MathLibrary::Vector2(cosf(forwardVector), sinf(forwardVector));
+    Enemy::draw();
+    DrawLine(getWorldPosition().x * 32,
+        getWorldPosition().y * 32,
+        getWorldPosition().x * 32 + referenceVector.x * 32,
+        getWorldPosition().y * 32 + referenceVector.x * 32,
+        ORANGE);
+    
 }
 
 void SimpleEnemy::setTarget(Actor* target)

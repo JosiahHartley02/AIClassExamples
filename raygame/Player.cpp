@@ -11,6 +11,8 @@ Player::Player(float x, float y, float collisionRadius, const char* spriteFilePa
 
 void Player::update(float deltatime)
 {
+    if (getHealth() == 0)
+        return;
     //Gets the player's input to determine which direction the actor will move on each axis 
     int xDirection = -Game::getKeyDown(KEY_A) + Game::getKeyDown(KEY_D);
     int yDirection = -Game::getKeyDown(KEY_W) + Game::getKeyDown(KEY_S);
@@ -30,6 +32,13 @@ void Player::update(float deltatime)
     Actor::update(deltatime);
     if (getHealth() <= 0)
         Game::destroy(this);
+}
+
+void Player::draw()
+{
+    if (getHealth() == 0)
+        return;
+    Actor::draw();
 }
 
 void Player::debug()
