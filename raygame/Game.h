@@ -61,11 +61,10 @@ public:
     /// <param name="key">The ascii value of the key to check</param>
     /// <returns></returns>
     static bool getKeyPressed(int key);
-
+    static int getScreenWidth() { return m_screenWidth; }
+    static int getScreenHeight() { return m_screenHeight; }
     static void destroy(Actor* actor);
     static void setGameOver(bool value);
-    static void toggleDebug() { m_showDebug = !m_showDebug; }
-    static bool showDebug() { return m_showDebug; }
     static MathLibrary::Matrix3* getWorld();
     void run();
 
@@ -78,8 +77,9 @@ private:
 private:
     Camera2D* m_camera;
     static bool m_gameOver;
-    static bool m_showDebug;
 	static Scene** m_scenes;
     static int m_sceneCount;
     static int m_currentSceneIndex;
+    static int m_screenWidth;
+    static int m_screenHeight;
 };

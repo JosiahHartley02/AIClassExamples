@@ -5,7 +5,7 @@
 #include <iostream>
 #include "Bullet.h"
 
-Player::Player(float x, float y, float collisionRadius, const char* spriteFilePath, float maxSpeed, float maxForce) : Agent(x, y, collisionRadius, spriteFilePath, maxSpeed, maxForce)
+Player::Player(float x, float y, float collisionRadius, const char* spriteFilePath, float maxSpeed, float maxForce) : Character(x, y, collisionRadius, spriteFilePath, maxSpeed, maxForce)
 {
 }
 
@@ -28,6 +28,8 @@ void Player::update(float deltatime)
             getWorldPosition().x, getWorldPosition().y, 2, "Images/bullet.png", 5, getForward() * 5));
 
     Actor::update(deltatime);
+    if (getHealth() <= 0)
+        Game::destroy(this);
 }
 
 void Player::debug()
