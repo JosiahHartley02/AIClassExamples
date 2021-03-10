@@ -85,16 +85,32 @@ void SimpleEnemy::draw()
         getWorldPosition().x * 32 + cosf(forwardAngle) * 32 * 100,
         getWorldPosition().y * 32 + sinf(forwardAngle) * 32 * 100,
         DARKPURPLE);
-    DrawLine(getWorldPosition().x * 32,
-        getWorldPosition().y * 32,
-        getWorldPosition().x * 32 + cosf(positiveAngle) * 32 * 100,
-        getWorldPosition().y * 32 + sinf(positiveAngle) * 32 * 100,
-        RED);
-    DrawLine(getWorldPosition().x * 32,
-        getWorldPosition().y * 32,
-        getWorldPosition().x * 32 + cosf(negativeAngle) * 32 * 100,
-        getWorldPosition().y * 32 + sinf(negativeAngle) * 32 * 100,
-        RED);
+    if (checkTargetInSight())
+    {
+        DrawLine(getWorldPosition().x * 32,
+            getWorldPosition().y * 32,
+            getWorldPosition().x * 32 + cosf(positiveAngle) * 32 * 100,
+            getWorldPosition().y * 32 + sinf(positiveAngle) * 32 * 100,
+            GREEN);
+        DrawLine(getWorldPosition().x * 32,
+            getWorldPosition().y * 32,
+            getWorldPosition().x * 32 + cosf(negativeAngle) * 32 * 100,
+            getWorldPosition().y * 32 + sinf(negativeAngle) * 32 * 100,
+            GREEN);
+    }
+    else 
+    {
+        DrawLine(getWorldPosition().x * 32,
+            getWorldPosition().y * 32,
+            getWorldPosition().x * 32 + cosf(positiveAngle) * 32 * 100,
+            getWorldPosition().y * 32 + sinf(positiveAngle) * 32 * 100,
+            RED);
+        DrawLine(getWorldPosition().x * 32,
+            getWorldPosition().y * 32,
+            getWorldPosition().x * 32 + cosf(negativeAngle) * 32 * 100,
+            getWorldPosition().y * 32 + sinf(negativeAngle) * 32 * 100,
+            RED);
+    }    
 }
 
 void SimpleEnemy::setTarget(Actor* target)
