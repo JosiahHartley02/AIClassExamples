@@ -67,24 +67,27 @@ void SimpleEnemy::update(float deltaTime)
 
 void SimpleEnemy::draw()
 {
-    MathLibrary::Vector2 getRight = MathLibrary::Vector2( 1, 0);
+    //create a reference to looking right
+    MathLibrary::Vector2 getRight = MathLibrary::Vector2(1, 0);
+    //call dotproduct to see if simple enemy is looking right or left
     float dotProduct = MathLibrary::Vector2::dotProduct(getForward(), getRight);
-    float forwardAngle = atanf(getForward().y/getForward().x);
-    float positiveAngle = forwardAngle + 0.523599;
-    float negativeAngle = forwardAngle + 5.75959;
+    //get the angle from the forward vector
+    float forwardAngle = atanf(getForward().y / getForward().x);
+    //add the half of the actors total vision to get a positive angle
+    float positiveAngle = forwardAngle + 0.523599f;
+    //add a full rotation minus half of the simple enemy total vision to get a negative angle
+    float negativeAngle = forwardAngle + 5.75959f;
+    //check to see if the simple enemy is facing left
     if (dotProduct < 0)
     {
+        //If it is, add 3.14 radians
         forwardAngle += PI;
         positiveAngle += PI;
         negativeAngle += PI;
     }
 
     Enemy::draw();
-    DrawLine(getWorldPosition().x * 32,
-        getWorldPosition().y * 32,
-        getWorldPosition().x * 32 + cosf(forwardAngle) * 32 * 100,
-        getWorldPosition().y * 32 + sinf(forwardAngle) * 32 * 100,
-        DARKPURPLE);
+
     if (checkTargetInSight())
     {
         DrawLine(getWorldPosition().x * 32,
@@ -98,7 +101,7 @@ void SimpleEnemy::draw()
             getWorldPosition().y * 32 + sinf(negativeAngle) * 32 * 100,
             GREEN);
     }
-    else 
+    else
     {
         DrawLine(getWorldPosition().x * 32,
             getWorldPosition().y * 32,
@@ -110,7 +113,7 @@ void SimpleEnemy::draw()
             getWorldPosition().x * 32 + cosf(negativeAngle) * 32 * 100,
             getWorldPosition().y * 32 + sinf(negativeAngle) * 32 * 100,
             RED);
-    }    
+    }
 }
 
 void SimpleEnemy::setTarget(Actor* target)
