@@ -14,7 +14,7 @@ bool SimpleEnemy::checkTargetInSight()
     //Find the angle using the dot product
     float dotProductAngle = acosf(dotProduct);
     //Check if that angle is greater than the enemy's viewing angle(any value you see fit is fine) (0.523599 = 30°)
-    if (dotProductAngle < .7)
+    if (dotProductAngle < 0.523599f)
         //Return if the enemy saw the target
         return true;
     return false;
@@ -67,17 +67,34 @@ void SimpleEnemy::update(float deltaTime)
 
 void SimpleEnemy::draw()
 {
-    MathLibrary::Vector2 getRight = MathLibrary::Vector2(getWorldPosition().x + 1, getWorldPosition().y);
+    MathLibrary::Vector2 getRight = MathLibrary::Vector2( 1, 0);
     float dotProduct = MathLibrary::Vector2::dotProduct(getForward(), getRight);
-    float forwardVector = atanf(getForward().y / getForward().x);
-    MathLibrary::Vector2 referenceVector = MathLibrary::Vector2(cosf(forwardVector), sinf(forwardVector));
+    float forwardAngle = atanf(getForward().y/getForward().x);
+    float positiveAngle = forwardAngle + 0.523599;
+    float negativeAngle = forwardAngle + 5.75959;
+    if (dotProduct < 0)
+    {
+        forwardAngle += PI;
+        positiveAngle += PI;
+        negativeAngle += PI;
+    }
+
     Enemy::draw();
     DrawLine(getWorldPosition().x * 32,
         getWorldPosition().y * 32,
-        getWorldPosition().x * 32 + referenceVector.x * 32,
-        getWorldPosition().y * 32 + referenceVector.x * 32,
-        ORANGE);
-    
+        getWorldPosition().x * 32 + cosf(forwardAngle) * 32 * 100,
+        getWorldPosition().y * 32 + sinf(forwardAngle) * 32 * 100,
+        DARKPURPLE);
+    DrawLine(getWorldPosition().x * 32,
+        getWorldPosition().y * 32,
+        getWorldPosition().x * 32 + cosf(positiveAngle) * 32 * 100,
+        getWorldPosition().y * 32 + sinf(positiveAngle) * 32 * 100,
+        RED);
+    DrawLine(getWorldPosition().x * 32,
+        getWorldPosition().y * 32,
+        getWorldPosition().x * 32 + cosf(negativeAngle) * 32 * 100,
+        getWorldPosition().y * 32 + sinf(negativeAngle) * 32 * 100,
+        RED);
 }
 
 void SimpleEnemy::setTarget(Actor* target)
