@@ -30,8 +30,8 @@ MathLibrary::Vector2 SeekBehavior::calculateForce(Agent* agent)
 	//Scale the direction vector by the seekForce
 	MathLibrary::Vector2 desiredVelocity = direction * getForce();
 	//Subtract current velocity from desired velocity to find steering force
-	m_steeringForce = desiredVelocity - agent->getVelocity();
-	return m_steeringForce;
+	setSteeringForce(desiredVelocity - agent->getVelocity());
+	return getSteeringForce();
 }
 
 void SeekBehavior::update(Agent* agent, float deltaTime)
@@ -55,7 +55,7 @@ void SeekBehavior::draw(Agent* agent)
 	//draw line to represent the steering force applied
 	DrawLine(agent->getWorldPosition().x * 32,
 		agent->getWorldPosition().y * 32,
-		(agent->getWorldPosition().x * 32) + (m_steeringForce.x * 32),
-		(agent->getWorldPosition().y * 32) + (m_steeringForce.y * 32),
+		(agent->getWorldPosition().x * 32) + (getSteeringForce().x * 32),
+		(agent->getWorldPosition().y * 32) + (getSteeringForce().y * 32),
 		BLUE);
 }

@@ -30,9 +30,9 @@ MathLibrary::Vector2 WanderBehavior::calculateForce(Agent* agent)
 	m_normPerPos = (m_randVecPos / m_randVecPos.getMagnitude()) * m_radius;
 	//Add the agents current vector multiplied by a random distance to the random target
 	theta = rand() / (RAND_MAX / 11);
-	m_randPos = m_normPerPos + (agent->getForward() * theta);
+	setSteeringForce(m_normPerPos + (agent->getForward() * theta) * getForce());
 	//Return the random target with the force applied
-	return m_randPos * getForce();
+	return getSteeringForce();
 }
 
 void WanderBehavior::update(Agent* agent, float deltaTime)
@@ -54,12 +54,12 @@ void WanderBehavior::draw(Agent* agent)
 		BLACK);
 
 	//Draw Radius For Potential Final Position Vectors
-	DrawCircle((agent->getWorldPosition().x * 32) + (((m_randPos.x - m_normPerPos.x)) * 32), 
-		agent->getWorldPosition().y * 32 + ((m_randPos.y - m_normPerPos.y) * 32),
+	DrawCircle((agent->getWorldPosition().x * 32) + (((getSteeringForce().x - m_normPerPos.x)) * 32),
+		agent->getWorldPosition().y * 32 + ((getSteeringForce().y - m_normPerPos.y) * 32),
 		m_radius * 32,
 		WHITE);
-	DrawCircle((agent->getWorldPosition().x * 32) + ((m_randPos.x - m_normPerPos.x) * 32),
-		agent->getWorldPosition().y * 32 + ((m_randPos.y - m_normPerPos.y) * 32),
+	DrawCircle((agent->getWorldPosition().x * 32) + ((getSteeringForce().x - m_normPerPos.x) * 32),
+		agent->getWorldPosition().y * 32 + ((getSteeringForce().y - m_normPerPos.y) * 32),
 		m_radius * 32 - 2,
 		BLACK);
 
@@ -93,18 +93,18 @@ void WanderBehavior::draw(Agent* agent)
 	//Draw the vector applied to the normalized random position
 	DrawLine((agent->getWorldPosition().x * 32) + (m_normPerPos.x * 32),
 		(agent->getWorldPosition().y * 32) + (m_normPerPos.y * 32),
-		(agent->getWorldPosition().x * 32) + (m_randPos.x * 32),
-		(agent->getWorldPosition().y * 32) + (m_randPos.y * 32),
+		(agent->getWorldPosition().x * 32) + (getSteeringForce().x * 32),
+		(agent->getWorldPosition().y * 32) + (getSteeringForce().y * 32),
 		YELLOW);
 	//Draw the location of the target that the agent will wander to
-	DrawCircle((agent->getWorldPosition().x * 32) + (m_randPos.x * 32),
-		(agent->getWorldPosition().y * 32) + (m_randPos.y * 32),
+	DrawCircle((agent->getWorldPosition().x * 32) + (getSteeringForce().x * 32),
+		(agent->getWorldPosition().y * 32) + (getSteeringForce().y * 32),
 		2,
 		GREEN);
 	//Draw the path the agent attempts to take
 	DrawLine((agent->getWorldPosition().x * 32) + (agent->getForward().x * 32),
 		(agent->getWorldPosition().y * 32) + (agent->getForward().y * 32),
-		(agent->getWorldPosition().x * 32) + (m_randPos.x * 32),
-		(agent->getWorldPosition().y * 32) + (m_randPos.y * 32),
+		(agent->getWorldPosition().x * 32) + (getSteeringForce().x * 32),
+		(agent->getWorldPosition().y * 32) + (getSteeringForce().y * 32),
 		GREEN);
 }

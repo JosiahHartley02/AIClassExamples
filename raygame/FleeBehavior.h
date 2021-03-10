@@ -27,6 +27,5 @@ private:
 	//The agent that the behavior is seeking
 	Actor* m_target;
 	float m_socialDistance;
-	MathLibrary::Vector2 m_steeringForce;
 };
 

@@ -18,6 +18,5 @@ public:
 private:
 	//The agent that the behavior is seeking
 	Actor* m_target;
-	MathLibrary::Vector2 m_desiredVelocity;
 };
 

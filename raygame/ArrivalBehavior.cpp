@@ -25,8 +25,8 @@ MathLibrary::Vector2 ArrivalBehavior::calculateForce(Agent* agent)
 	if (m_radius > distance)
 		direction = (direction * (distance / m_radius )) * getForce();
 	//Subtract current velocity from desired velocity to find steering force
-	MathLibrary::Vector2 steeringForce = direction - agent->getVelocity();
-	return steeringForce;
+	setSteeringForce(direction - agent->getVelocity());
+	return getSteeringForce();
 }
 
 void ArrivalBehavior::update(Agent* agent, float deltaTime)

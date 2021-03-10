@@ -18,10 +18,10 @@ MathLibrary::Vector2 EvadeBehavior::calculateForce(Agent* agent)
 	//Find the direction to move in
 	MathLibrary::Vector2 direction = MathLibrary::Vector2::normalize((agent->getWorldPosition() + agent->getVelocity()) - m_target->getWorldPosition());
 	//Scale the direction vector by the evadeForce
-	m_desiredVelocity = direction * getForce();
+	MathLibrary::Vector2 desiredVelocity = direction * getForce();
 	//Subtract current velocity from desired velocity to find steering force
-	MathLibrary::Vector2 steeringForce = m_desiredVelocity - agent->getVelocity();
-	return  steeringForce;
+	setSteeringForce(desiredVelocity - agent->getVelocity());
+	return  getSteeringForce();
 }
 
 void EvadeBehavior::update(Agent* agent, float deltaTime)
@@ -41,7 +41,7 @@ void EvadeBehavior::draw(Agent* agent)
 	//Draw the direction this agent wants to head
 	DrawLine(agent->getWorldPosition().x * 32,
 		agent->getWorldPosition().y * 32,
-		agent->getWorldPosition().x * 32 + (m_desiredVelocity.x * 32),
-		agent->getWorldPosition().y * 32 + (m_desiredVelocity.y * 32),
+		agent->getWorldPosition().x * 32 + (getSteeringForce().x * 32),
+		agent->getWorldPosition().y * 32 + (getSteeringForce().y * 32),
 		GREEN);
 }

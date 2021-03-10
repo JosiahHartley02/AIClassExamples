@@ -20,5 +20,4 @@ private:
 	MathLibrary::Vector2 m_randPerPos;
 	MathLibrary::Vector2 m_randVecPos;
 	MathLibrary::Vector2 m_normPerPos;
-	MathLibrary::Vector2 m_randPos;
 };
