@@ -19,13 +19,18 @@ ArrivalBehavior::ArrivalBehavior(Actor* target, float arrivalForce, float radius
 MathLibrary::Vector2 ArrivalBehavior::calculateForce(Agent* agent)
 {
 	//Find the direction to move in
-	MathLibrary::Vector2 direction = MathLibrary::Vector2::normalize(m_target->getWorldPosition() + m_target->getVelocity() - agent->getWorldPosition());
-	float distance = MathLibrary::Vector2(m_target->getWorldPosition() - agent->getWorldPosition()).getMagnitude();
-	//apply the arrival behavior
+	MathLibrary::Vector2 direction = MathLibrary::Vector2::normalize(m_target->getWorldPosition()
+		+ m_target->getVelocity() - agent->getWorldPosition());
+	float distance = MathLibrary::Vector2(m_target->getWorldPosition()
+		- agent->getWorldPosition()).getMagnitude();
+	//check to see if the target is within distance to start arrriving
 	if (m_radius > distance)
-		direction = (direction * (distance / m_radius )) * getForce();
+		//set the direction vector to be the direction multiplied by the distance divided by radius
+		//multiplied by the force
+		direction = (direction * (distance / m_radius) * getForce());
 	//Subtract current velocity from desired velocity to find steering force
 	setSteeringForce(direction - agent->getVelocity());
+	//return the steering force
 	return getSteeringForce();
 }
 

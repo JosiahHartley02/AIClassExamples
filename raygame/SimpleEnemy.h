@@ -21,8 +21,10 @@ class SimpleEnemy : public Enemy
 	void draw() override;
 
 	void setTarget(Actor* target) override;
+	void setVisionAngle(float degrees) { m_visionAngle = degrees * (3.14159265359f / 180); }
 private:
 	EnemyState m_currentState;
 	WanderBehavior* m_wander;
 	SeekBehavior* m_seek;
+	float m_visionAngle;
 };

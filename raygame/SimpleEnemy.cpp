@@ -14,7 +14,7 @@ bool SimpleEnemy::checkTargetInSight()
     //Find the angle using the dot product
     float dotProductAngle = acosf(dotProduct);
     //Check if that angle is greater than the enemy's viewing angle(any value you see fit is fine) (0.523599 = 30°)
-    if (dotProductAngle < 0.523599f)
+    if (dotProductAngle < m_visionAngle)
         //Return if the enemy saw the target
         return true;
     return false;
@@ -44,6 +44,8 @@ void SimpleEnemy::onCollision(Character * other)
     m_wander = getBehavior<WanderBehavior>();
     //Set the target to be the base class target
     setTarget(Enemy::getTarget());
+    //Set the vision angle for simple enemy in degrees
+    setVisionAngle(15);
 }
 
 void SimpleEnemy::update(float deltaTime)
@@ -52,7 +54,7 @@ void SimpleEnemy::update(float deltaTime)
     switch (checkTargetInSight())
     {
         case false:        
-            m_wander->setForce(1);
+            m_wander->setForce(100);
             m_seek->setForce(0);
             break;
         case true:
@@ -74,9 +76,9 @@ void SimpleEnemy::draw()
     //get the angle from the forward vector
     float forwardAngle = atanf(getForward().y / getForward().x);
     //add the half of the actors total vision to get a positive angle
-    float positiveAngle = forwardAngle + 0.523599f;
+    float positiveAngle = forwardAngle + m_visionAngle;
     //add a full rotation minus half of the simple enemy total vision to get a negative angle
-    float negativeAngle = forwardAngle + 5.75959f;
+    float negativeAngle = forwardAngle + ((2*PI) - m_visionAngle);
     //check to see if the simple enemy is facing left
     if (dotProduct < 0)
     {

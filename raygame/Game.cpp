@@ -52,7 +52,7 @@ void Game::start()
 	ArrivalBehavior* arrival = new ArrivalBehavior(player, .5f, 5);
 	EvadeBehavior* evade = new EvadeBehavior(player, 0.5f);
 	FleeBehavior* flee = new FleeBehavior(pursuer, 0.5f);
-	SeekBehavior* seek = new SeekBehavior(player, 10);
+	SeekBehavior* seek = new SeekBehavior(player, 1);
 
 	pursuer->addBehavior(pursue);
 	wanderer->addBehavior(wander);
