@@ -39,7 +39,10 @@ void Agent::update(float deltatime)
 	m_force = { 0,0 };
 	//update each behavior
 	for (int i = 0; i < m_behaviors.size(); i++)
-		m_behaviors[i]->update(this, deltatime);
+	{
+		if (m_behaviors[i]->getEnabled())
+			m_behaviors[i]->update(this, deltatime);
+	}
 	//Set the new velocity to be the old velocitty plus the force of the behaviors
 	setVelocity(getVelocity() + m_force * deltatime);
 	//Update the icon to face the direction its moving

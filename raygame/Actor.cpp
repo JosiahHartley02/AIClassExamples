@@ -114,10 +114,9 @@ void Actor::setAcceleration(MathLibrary::Vector2 value)
     m_acceleration = value;
 }
 
-void Actor::start(Scene* thisScene)
+void Actor::start()
 {
     m_started = true;
-    setCurrentScene(thisScene);
 }
 
 void Actor::addChild(Actor* child)

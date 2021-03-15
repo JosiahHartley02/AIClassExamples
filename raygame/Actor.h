@@ -42,7 +42,7 @@ public:
     MathLibrary::Vector2 getAcceleration();
     void setAcceleration(MathLibrary::Vector2 value);
 
-    virtual void start(Scene* thisScene);
+    virtual void start();
 
     void addChild(Actor* child);
     bool removeChild(int index);

@@ -37,34 +37,10 @@ void Game::start()
 	m_camera->zoom = 1;
 
 	Player* player = new Player(10,10, 1, "Images/player.png", 1,10);
-	Agent* pursuer = new Agent(15, 15, 1, "Images/Seeker.png", 1, 1);
-	Agent* wanderer = new Agent(15, 10, 1, "Images/Wanderer.png", 1, 1);
-	Agent* arriver = new Agent(15, 15, 1, "Images/enemy.png", 1, 1);
-	Agent* evader = new Agent(15, 15, 1, "Images/enemy.png", 1, 1);
-	Agent* fleer = new Agent(25, 15, 1, "Images/Fleer.png", 1, 1);
-	Agent* seeker = new Agent(15, 15, 1, "Images/enemy.png", 10, 10);
-	SimpleEnemy* simpleEnemy = new SimpleEnemy(15, 15, 0.5f, "Images/Fleer.png", player,1,1,1,1);
 
 	Scene* scene = new Scene();
 
-	PursueBehavior* pursue = new PursueBehavior(player, 1);
-	WanderBehavior* wander = new WanderBehavior(0.5f);
-	ArrivalBehavior* arrival = new ArrivalBehavior(player, .5f, 5);
-	EvadeBehavior* evade = new EvadeBehavior(player, 0.5f);
-	FleeBehavior* flee = new FleeBehavior(pursuer, 0.5f);
-	SeekBehavior* seek = new SeekBehavior(player, 1);
-
-	pursuer->addBehavior(pursue);
-	wanderer->addBehavior(wander);
-	arriver->addBehavior(arrival);
-	evader->addBehavior(evade);
-	fleer->addBehavior(flee);
-	seeker->addBehavior(seek);
-	simpleEnemy->addBehavior(wander);
-	simpleEnemy->addBehavior(seek);
-
 	scene->addActor(player);
-	scene->addActor(simpleEnemy);
 	
 	addScene(scene);
 	SetTargetFPS(60);
@@ -72,7 +48,6 @@ void Game::start()
 
 void Game::update(float deltaTime)
 {
-	m_camera->target = { m_scenes[0]->getCameraPosition().x * 32, m_scenes[0]->getCameraPosition().y * 32};
 	for (int i = 0; i < m_sceneCount; i++)
 	{
 		m_scenes[i]->update(deltaTime);

@@ -130,11 +130,10 @@ void Scene::checkCollision()
 
 void Scene::update(float deltaTime)
 {
-    setCameraPosition(m_actors[0]->getWorldPosition());
     for (int i = 0; i < m_actorCount; i++)
     {
         if (!m_actors[i]->getStarted())
-            m_actors[i]->start(getThisScene());
+            m_actors[i]->start();
         
         m_actors[i]->update(deltaTime);
     }
