@@ -72,6 +72,7 @@ void Game::start()
 
 void Game::update(float deltaTime)
 {
+	m_camera->target = { m_scenes[0]->getCameraPosition().x * 32, m_scenes[0]->getCameraPosition().y * 32};
 	for (int i = 0; i < m_sceneCount; i++)
 	{
 		m_scenes[i]->update(deltaTime);

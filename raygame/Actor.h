@@ -4,6 +4,7 @@
 #include <Matrix3.h>
 
 class Sprite;
+class Scene;
 
 class Actor
 {
@@ -41,7 +42,7 @@ public:
     MathLibrary::Vector2 getAcceleration();
     void setAcceleration(MathLibrary::Vector2 value);
 
-    virtual void start();
+    virtual void start(Scene* thisScene);
 
     void addChild(Actor* child);
     bool removeChild(int index);
@@ -80,6 +81,8 @@ public:
     virtual void debug();
     virtual void end();
 
+    Scene* getCurrentScene() { return m_currentScene; }
+    void setCurrentScene(Scene* sceneReference) { m_currentScene = sceneReference; }
 protected:
     /// <summary>
     /// Updates the actors forward vector to be
@@ -112,5 +115,6 @@ private:
     Actor* m_parent;
     int m_childCount;
     Sprite* m_sprite;
+    Scene* m_currentScene;
 };
 

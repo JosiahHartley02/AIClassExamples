@@ -1,5 +1,8 @@
 #include "Scene.h"
 
+class Player;
+class Actor;
+class Character;
 Scene::Scene()
 {
     m_actorCount = 0;
@@ -107,6 +110,7 @@ bool Scene::removeActor(Actor* actor)
 void Scene::start()
 {
     m_started = true;
+    setThisScene(this);
 }
 
 void Scene::checkCollision()
@@ -126,11 +130,12 @@ void Scene::checkCollision()
 
 void Scene::update(float deltaTime)
 {
+    setCameraPosition(m_actors[0]->getWorldPosition());
     for (int i = 0; i < m_actorCount; i++)
     {
         if (!m_actors[i]->getStarted())
-            m_actors[i]->start();
-
+            m_actors[i]->start(getThisScene());
+        
         m_actors[i]->update(deltaTime);
     }
     checkCollision();
