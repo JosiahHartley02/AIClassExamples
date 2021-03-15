@@ -48,7 +48,7 @@ void Game::start()
 	Scene* scene = new Scene();
 
 	PursueBehavior* pursue = new PursueBehavior(player, 1);
-	WanderBehavior* wander = new WanderBehavior(1);
+	WanderBehavior* wander = new WanderBehavior(0.5f);
 	ArrivalBehavior* arrival = new ArrivalBehavior(player, .5f, 5);
 	EvadeBehavior* evade = new EvadeBehavior(player, 0.5f);
 	FleeBehavior* flee = new FleeBehavior(pursuer, 0.5f);

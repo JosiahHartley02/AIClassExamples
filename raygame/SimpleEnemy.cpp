@@ -54,7 +54,7 @@ void SimpleEnemy::update(float deltaTime)
     switch (checkTargetInSight())
     {
         case false:        
-            m_wander->setForce(100);
+            m_wander->setForce(1);
             m_seek->setForce(0);
             break;
         case true:
@@ -96,12 +96,12 @@ void SimpleEnemy::draw()
             getWorldPosition().y * 32,
             getWorldPosition().x * 32 + cosf(positiveAngle) * 32 * 100,
             getWorldPosition().y * 32 + sinf(positiveAngle) * 32 * 100,
-            GREEN);
+            DARKGREEN);
         DrawLine(getWorldPosition().x * 32,
             getWorldPosition().y * 32,
             getWorldPosition().x * 32 + cosf(negativeAngle) * 32 * 100,
             getWorldPosition().y * 32 + sinf(negativeAngle) * 32 * 100,
-            GREEN);
+            DARKGREEN);
     }
     else
     {
@@ -109,12 +109,12 @@ void SimpleEnemy::draw()
             getWorldPosition().y * 32,
             getWorldPosition().x * 32 + cosf(positiveAngle) * 32 * 100,
             getWorldPosition().y * 32 + sinf(positiveAngle) * 32 * 100,
-            RED);
+            DARKPURPLE);
         DrawLine(getWorldPosition().x * 32,
             getWorldPosition().y * 32,
             getWorldPosition().x * 32 + cosf(negativeAngle) * 32 * 100,
             getWorldPosition().y * 32 + sinf(negativeAngle) * 32 * 100,
-            RED);
+            DARKPURPLE);
     }
 }
 

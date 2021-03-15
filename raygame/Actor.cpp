@@ -282,6 +282,18 @@ void Actor::update(float deltaTime)
 
     //Increase position by the current velocity
     translate(m_velocity * deltaTime);
+    
+	//Checks if the enemy goes outside the bounds of the screen.
+	//If so the enemy is teleported to the other side
+	if (getWorldPosition().x > GetScreenWidth() / 32)
+		setWorldPostion(MathLibrary::Vector2(0, getWorldPosition().y));
+	if (getWorldPosition().x < 0)
+		setWorldPostion(MathLibrary::Vector2(GetScreenWidth()/ 32, getWorldPosition().y));
+	if (getWorldPosition().y > GetScreenHeight() / 32)
+		setWorldPostion(MathLibrary::Vector2(getWorldPosition().x,0));
+	if (getWorldPosition().y < 0)
+		setWorldPostion(MathLibrary::Vector2(getWorldPosition().x, GetScreenHeight() / 32));
+
 }
 
 
