@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "raylib.h"
 #include "Player.h"
-#include "PursueBe"
+#include "Graph.h"
 
 bool Game::m_gameOver = false;
 Scene** Game::m_scenes = new Scene*;
@@ -29,23 +29,33 @@ void Game::start()
 	m_camera->offset = { (float)m_screenWidth / 2, (float)m_screenHeight / 2 };
 	m_camera->target = { (float)m_screenWidth / 2, (float)m_screenHeight / 2 };
 	m_camera->zoom = 1;
+	
+	//STEERING BEHAVIORS SCENE START
 
+	//Initialize agents
 	Player* player = new Player(10,10, 1, "Images/player.png", 1,10);
 
 	Scene* scene = new Scene();
 
 	scene->addActor(player);
-	
+
 	addScene(scene);
+	//STEERING BEHAVIORS SCENE END
+
+	//PATHFINDING SCENE START
+
+	Graph* graph = new Graph(5, 5, 5, 1);
+	Scene* pathFinding = new Scene();
+	pathFinding->addActor(graph);
+
+	//PATHFINDING SCENE END
+	m_currentSceneIndex = addScene(pathFinding);
 	SetTargetFPS(60);
 }
 
 void Game::update(float deltaTime)
 {
-	for (int i = 0; i < m_sceneCount; i++)
-	{
-		m_scenes[i]->update(deltaTime);
-	}
+	getCurrentScene()->update(deltaTime);
 }
 
 void Game::draw()
@@ -55,10 +65,7 @@ void Game::draw()
 	BeginMode2D(*m_camera);
 	ClearBackground(BLACK);
 
-	for (int i = 0; i < m_sceneCount; i++)
-	{
-		m_scenes[i]->draw();
-	}
+	getCurrentScene()->draw();
 
 	EndMode2D();
 	EndDrawing();
