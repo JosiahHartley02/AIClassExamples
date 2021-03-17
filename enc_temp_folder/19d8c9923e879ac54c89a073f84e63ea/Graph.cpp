@@ -1,7 +1,6 @@
 #include "Graph.h"
 #include "Node.h"
 #include "Edge.h"
-#include "raylib.h"
 
 Graph::Graph(int width, int height, int nodeSize, int nodeSpacing)
 {
@@ -27,31 +26,6 @@ void Graph::update(float deltaTime)
 	
 	for (int i = 0; i < m_nodes.size(); i++)
 		m_nodes[i]->update(deltaTime);
-}
-
-void Graph::BFS(int startX, int startY, int goalX, int goalY)
-{
-	Node* start = getNode(startX, startY);
-	Node* goal = getNode(goalX, goalY);
-
-	if (!start || !goal)
-		return;
-
-	start->color = ColorToInt(GREEN);
-}
-
-Node* Graph::getNode(int xPos, int yPos)
-{
-	if(xPos < 0 || xPos > m_width || yPos < 0 || yPos > m_height)
-		return nullptr;
-
-	for (int i = 0; i < m_nodes.size(); i++)
-	{
-		if (m_nodes[i]->graphPosition == MathLibrary::Vector2(xPos, yPos))
-			return m_nodes[i];
-	}
-
-	return nullptr;
 }
 
 void Graph::createGraph(int nodeSize, int nodeSpacing)
