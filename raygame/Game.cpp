@@ -1,13 +1,7 @@
 #include "Game.h"
 #include "raylib.h"
 #include "Player.h"
-#include "SimpleEnemy.h"
-#include "SeekBehavior.h"
-#include "FleeBehavior.h"
-#include "WanderBehavior.h"
-#include "PursueBehavior.h"
-#include "EvadeBehavior.h"
-#include "ArrivalBehavior.h"
+#include "PursueBe"
 
 bool Game::m_gameOver = false;
 Scene** Game::m_scenes = new Scene*;

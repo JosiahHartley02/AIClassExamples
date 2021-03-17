@@ -163,6 +163,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PursueBehavior.cpp" />
+    <ClCompile Include="PursueDecision.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SeekBehavior.cpp" />
     <ClCompile Include="SimpleEnemy.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PursueBehavior.h" />
+    <ClInclude Include="PursueDecision.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SeekBehavior.h" />
     <ClInclude Include="SimpleEnemy.h" />

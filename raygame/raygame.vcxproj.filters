@@ -86,6 +86,9 @@
     <ClCompile Include="WanderDecision.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PursueDecision.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -158,6 +161,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WanderDecision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PursueDecision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
