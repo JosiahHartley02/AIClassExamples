@@ -117,6 +117,9 @@ void Graph::update(float deltaTime)
 		while (!openList.empty())
 		{
 			//Sort the items in the open list by the g score
+			for (int i = 0; i < openList.size(); i++)
+				for (int j = i + 1; j < openList.size() - i; j--)
+					if (openList[i]->gScore < openList[j]->gScore)
 
 			//Set the iterator to be the first item in the open list
 			currentNode = openList.front();
@@ -139,7 +142,7 @@ void Graph::update(float deltaTime)
 				//Create a node pointer to store the other end of the edge
 				Node* currentEdgeEnd = nullptr;
 				//Check if the iterator is on the second end of the node
-				if (currentEdgeEnd == currentNode->edges[i]->connectedNodeTwo)
+				if (currentNode == currentEdgeEnd->edges[i]->connectedNodeTwo)
 				{
 					//Set the edge end pointer to be the first end of the node
 					currentEdgeEnd = currentNode->edges[i]->connectedNodeOne;
@@ -149,30 +152,38 @@ void Graph::update(float deltaTime)
 				{
 					//set the edge end pointer to be the second end of the node
 					currentEdgeEnd = currentNode->edges[i]->connectedNodeTwo;
-				// end if statement
+					// end if statement
 				}
 				//Check if node at the end of the edge is in the closed list
 				if (currentEdgeEnd)
 				{
 					//Create a float and set it to be the g score of the iterator plus the cost of the edge
 					int costOf = (currentNode->getWorldPosition() - currentEdgeEnd->getWorldPosition()).getMagnitude();
-
 					//Check if the node at the end of the edge is in the open list
-
+					if (currentEdgeEnd->color == ColorToInt(RED))
+					{
 						//Mark the node as visited by changing its color
+						currentEdgeEnd->color = ColorToInt(RED);
 						//Set the nodes g score to be the g score calculated earlier
+						currentEdgeEnd->gScore = costOf;
 						//Set the nodes previous to be the iterator
+						currentEdgeEnd->previous = currentNode;
 						//Add the node to the open list
-
+						openList.push_back(currentEdgeEnd);
+					}
 					//Otherwise if the g score is less than the node at the end of the edge's g score...
-
-						//Mark the node as visited by changing its color
-						//Set its g score to be the g score calculated earlier
-						//Set its previous to be the current node
-
-					//end if statement
+					else if(costOf < currentEdgeEnd->gScore)
+					{
+							//Mark the node as visited by changing its color
+						currentEdgeEnd->color = ColorToInt(BLUE);
+							//Set its g score to be the g score calculated earlier
+						currentEdgeEnd->gScore = costOf;
+							//Set its previous to be the current node
+						currentEdgeEnd->previous = currentNode;
+					}
+					//end if statement					
 				}
-			//end loop
+				//end loop
 			}
 			//end loop
 		}

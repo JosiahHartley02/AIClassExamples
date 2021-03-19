@@ -2,11 +2,13 @@
 #include "Edge.h"
 #include <raylib.h>
 
-Node::Node(int x, int y, int nodeSize)
+Node::Node(int x, int y, int nodeSize, float GScore)
 {
 	graphPosition.x = x;
 	graphPosition.y = y;
 	size = nodeSize;
+	gScore = GScore;
+	previous = nullptr;
 }
 
 void Node::draw()

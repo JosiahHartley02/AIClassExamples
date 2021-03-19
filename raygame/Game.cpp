@@ -46,7 +46,8 @@ void Game::start()
 
 	Graph* graph = new Graph(10, 10, 10, 1);
 	graph->setWorldPostion({ 2,2 });
-	graph->BFS(0, 0, 9, 9);
+  //graph->BFS(0, 0, 9, 9);
+	graph->dijkstra(0, 0, 9, 9);
 	Scene* pathFinding = new Scene();
 	pathFinding->addActor(graph);
 

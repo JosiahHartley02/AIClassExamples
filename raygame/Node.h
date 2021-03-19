@@ -8,13 +8,15 @@ class Edge;
 class Node : public Actor
 {
 public:
-	Node(int x, int y, int nodeSize);
+	Node(int x, int y, int nodeSize, float GScore = 1);
 	std::vector<Edge*> edges;
 	MathLibrary::Vector2 graphPosition;
 	int color = 0xFFFFFFFF;
 	int size = 1;
+	float gScore;
 	bool visited;
 	void draw() override;
 	void update(float deltaTime) override;
+	Node* previous;
 };
 
