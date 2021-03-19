@@ -88,7 +88,7 @@ void Graph::update(float deltaTime)
 		}
 	}
 
-	void Graph::dijkstrap(int startX, int startY, int goalX, int goalY)
+	void Graph::dijkstra(int startX, int startY, int goalX, int goalY)
 	{
 		//Create a node pointer that points to the start node
 		Node* start = getNode(startX, startY);
@@ -155,7 +155,7 @@ void Graph::update(float deltaTime)
 				if (currentEdgeEnd)
 				{
 					//Create a float and set it to be the g score of the iterator plus the cost of the edge
-					int costOf = 1;
+					int costOf = (currentNode->getWorldPosition() - currentEdgeEnd->getWorldPosition()).getMagnitude();
 
 					//Check if the node at the end of the edge is in the open list
 
@@ -176,6 +176,77 @@ void Graph::update(float deltaTime)
 			}
 			//end loop
 		}
+	}
+
+	void Graph::astar(int startX, int startY, int goalX, int goalY)
+	{
+		//Create a node pointer that points to the start node
+	//Create a node pointer that points to the goal node
+
+	//Check if the start or the goal pointer is null
+		//return an empty list
+	//end if statement
+
+	//Set the start nodes color to be green
+
+	//Create a node pointer that will act as an iterator for the graph
+	//Create an open list
+	//Create a closed list
+
+	//Add start to the open list
+
+	//Loop while the open list is not empty
+
+		//Sort the items in the open list by the f score
+
+		//Set the iterator to be the first item in the open list
+
+		//Check if the iterator is pointing to the goal node
+
+			//Mark the goal as being found by changing its color
+			//Return the new path found
+
+		//end if statement
+
+		//Pop the first item off the open list
+		//Add the first item to the closed list
+
+		//Loop through all of the edges for the iterator
+
+			//Create a node pointer to store the other end of the edge
+
+			//Check if the iterator is on the second end of the node
+				//Set the edge end pointer to be the first end of the node
+			//Otherwise if the iterator is on the first end of the node...
+				//set the edge end pointer to be the second end of the node
+			// end if statement
+
+			//Check if node at the end of the edge is in the closed list
+
+				//Create a float and set it to be the g score of the iterator plus the cost of the edge
+				//Create a float and set it to be the h score of the node at the end of the edge
+				//Create a float for the f score and set it to be the g score combined with the h score
+
+				//Check if the node at the end of the edge is in the open list
+
+					//Mark the node as visited by changing its color
+					//Set the nodes g score to be the g score calculated earlier
+					//Set the nodes h score to be the h score calculated earlier
+					//Set the nodes f score to be the f score calculated earlier
+					//Set the nodes previous to be the iterator
+					//Add the node to the open list
+
+				//Otherwise if the f score is less than the node at the end of the edge's f score...
+
+					//Mark the node as visited by changing its color
+					//Set its g score to be the g score calculated earlier
+					//Set the nodes h score to be the h score calculated earlier
+					//Set its f score to be the f score calculated earlier
+					//Set its previous to be the current node
+
+				//end if statement
+		//end loop
+	//end loop
 	}
 
 Node* Graph::getNode(int xPos, int yPos)
