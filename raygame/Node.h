@@ -15,10 +15,16 @@ public:
 	int size = 1;
 	float gScore;
 	bool visited;
-	bool inOpenList;
-	bool inClosedList;
+	bool openList() { return m_inOpenList; }
+	void openList(bool value) { m_inOpenList = value; }
+	bool closedList() { return m_inClosedList; }
+	void closedList(bool value) { m_inClosedList = value; }
 	void draw() override;
 	void update(float deltaTime) override;
 	Node* previous;
+private:
+	bool m_inOpenList;
+	bool m_inClosedList;
+
 };
 
