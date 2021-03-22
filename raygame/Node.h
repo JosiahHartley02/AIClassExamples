@@ -15,6 +15,8 @@ public:
 	int size = 1;
 	float gScore;
 	bool visited;
+	bool inOpenList;
+	bool inClosedList;
 	void draw() override;
 	void update(float deltaTime) override;
 	Node* previous;

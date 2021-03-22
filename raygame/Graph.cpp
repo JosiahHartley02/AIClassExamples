@@ -110,16 +110,27 @@ void Graph::update(float deltaTime)
 		std::deque<Node*> openList;
 		//Create a closed list
 		std::deque<Node*> closedList;
+		for (int i = 0; i < m_nodes.size(); i++)
+		{
+			closedList.push_back(m_nodes[i]);
+			m_nodes[i]->inClosedList = true;
+		}
 		//Add start to the open list
 		openList.push_front(start);
+		start->inOpenList = true;
 
 		//Loop while the open list is not empty
 		while (!openList.empty())
 		{
 			//Sort the items in the open list by the g score
-			for (int i = 0; i < openList.size(); i++)
-				for (int j = i + 1; j < openList.size() - i; j--)
-					if (openList[i]->gScore < openList[j]->gScore)
+			for(int i = 0; i < openList.size() - 1; i++)
+				for(int j = 0; j < openList.size() - i - 1; j++)
+					if (openList[j] > openList[j + 1])
+					{
+						Node* tempCopy = openList[j];
+						openList[j] = openList[j + 1];
+						openList[j + 1] = tempCopy;
+					}
 
 			//Set the iterator to be the first item in the open list
 			currentNode = openList.front();
@@ -127,22 +138,24 @@ void Graph::update(float deltaTime)
 			if (currentNode == goal)
 			{
 				//Mark the goal as being found by changing its color
-				goal->color = ColorToInt(YELLOW);
+				goal->color = ColorToInt(RED);
 				//Return the new path found
 				return;
 				//end if statement
 			}
-			//Pop the first item off the open list
-			openList.pop_front();
 			//Add the first item to the closed list
-			closedList.push_back(currentNode);
+			openList.front()->inClosedList = true;
+			closedList.push_back(openList.front());
+			//Pop the first item off the open list
+			openList[0]->inOpenList = false;
+			openList.pop_front();
 			//Loop through all of the edges for the iterator
 			for (int i = 0; i < currentNode->edges.size(); i++)
 			{
 				//Create a node pointer to store the other end of the edge
 				Node* currentEdgeEnd = nullptr;
 				//Check if the iterator is on the second end of the node
-				if (currentNode == currentEdgeEnd->edges[i]->connectedNodeTwo)
+				if (currentNode == currentNode->edges[i]->connectedNodeTwo)
 				{
 					//Set the edge end pointer to be the first end of the node
 					currentEdgeEnd = currentNode->edges[i]->connectedNodeOne;
@@ -155,30 +168,31 @@ void Graph::update(float deltaTime)
 					// end if statement
 				}
 				//Check if node at the end of the edge is in the closed list
-				if (currentEdgeEnd)
+				if (currentEdgeEnd->inClosedList == true)
 				{
 					//Create a float and set it to be the g score of the iterator plus the cost of the edge
 					int costOf = (currentNode->getWorldPosition() - currentEdgeEnd->getWorldPosition()).getMagnitude();
 					//Check if the node at the end of the edge is in the open list
-					if (currentEdgeEnd->color == ColorToInt(RED))
+					if (currentEdgeEnd->inOpenList)
 					{
 						//Mark the node as visited by changing its color
-						currentEdgeEnd->color = ColorToInt(RED);
+						currentEdgeEnd->color = ColorToInt(YELLOW);
 						//Set the nodes g score to be the g score calculated earlier
 						currentEdgeEnd->gScore = costOf;
-						//Set the nodes previous to be the iterator
+						//set the nodes previous to be the iterator
 						currentEdgeEnd->previous = currentNode;
 						//Add the node to the open list
 						openList.push_back(currentEdgeEnd);
+						currentEdgeEnd->inOpenList = true;
 					}
-					//Otherwise if the g score is less than the node at the end of the edge's g score...
-					else if(costOf < currentEdgeEnd->gScore)
+					//Otherwise if the g score is less than the node at the end of the edges' g score
+					else if (costOf < currentEdgeEnd->gScore)
 					{
-							//Mark the node as visited by changing its color
+						//Mark the node as visited by changing its color
 						currentEdgeEnd->color = ColorToInt(BLUE);
-							//Set its g score to be the g score calculated earlier
+						//Set its g score to be the gscore calculated earlier
 						currentEdgeEnd->gScore = costOf;
-							//Set its previous to be the current node
+						//Set its previous to be the current node
 						currentEdgeEnd->previous = currentNode;
 					}
 					//end if statement					
@@ -191,7 +205,7 @@ void Graph::update(float deltaTime)
 
 	void Graph::astar(int startX, int startY, int goalX, int goalY)
 	{
-		//Create a node pointer that points to the start node
+	//Create a node pointer that points to the start node
 	//Create a node pointer that points to the goal node
 
 	//Check if the start or the goal pointer is null
