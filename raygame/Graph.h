@@ -13,14 +13,15 @@ public:
 
 	void BFS(int startX, int startY, int goalX, int goalY);
 
-	std::vector<Node*> dijkstra(int startX, int startY, int goalX, int goalY);
+	void dijkstra(int startX, int startY, int goalX, int goalY);
 
 	void astar(int startX, int startY, int goalX, int goalY);
 
 	Node* getNode(int xPos, int yPos);
 private:
 	void createGraph(int nodeSize, int nodeSpacing);
-	std::deque<Node*> sortQueue(std::deque<Node*> queue);
+	std::deque<Node*> sortList(std::deque<Node*> list);
+	float inList(std::deque<Node*> list, Node* node);
 private:
 	int m_height;
 	int m_width;

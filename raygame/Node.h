@@ -2,6 +2,7 @@
 #include "Actor.h"
 #include <vector>
 #include "raylib.h"
+#include <deque>
 
 class Edge;
 
@@ -13,18 +14,15 @@ public:
 	MathLibrary::Vector2 graphPosition;
 	int color = 0xFFFFFFFF;
 	int size = 1;
-	float gScore;
-	bool visited;
-	bool openList() { return m_inOpenList; }
-	void openList(bool value) { m_inOpenList = value; }
-	bool closedList() { return m_inClosedList; }
-	void closedList(bool value) { m_inClosedList = value; }
 	void draw() override;
-	void update(float deltaTime) override;
-	Node* previous;
+	void update(float deltaTime) override;;
+	bool visited;
+	void gScore(float value) { m_gScore = value; }
+	float gScore() { return m_gScore; }
+	void previous(Node* node) { m_previous = node; }
+	Node* previous() { return m_previous; }
 private:
-	bool m_inOpenList;
-	bool m_inClosedList;
-
+	float m_gScore;
+	Node* m_previous;
 };
 

@@ -9,7 +9,10 @@ public:
 	Edge(Node* NodeOne, Node* NodeTwo);
 	Node* connectedNodeOne;
 	Node* connectedNodeTwo;
-	float cost;
+	float cost() { return m_cost; }
+	void updateCost();
 	void draw() override;
 	void update(float deltaTime) override;
+private:
+	float m_cost;
 };

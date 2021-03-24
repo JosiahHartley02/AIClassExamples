@@ -87,7 +87,7 @@ void Graph::update(float deltaTime)
 		}
 	}
 
-	std::vector<Node*> Graph::dijkstra(int startX, int startY, int goalX, int goalY)
+	void Graph::dijkstra(int startX, int startY, int goalX, int goalY)
 	{
 		//Create a node pointer that points to the start node
 		Node* start = getNode(startX, startY);
@@ -96,9 +96,11 @@ void Graph::update(float deltaTime)
 
 		//Check if the start or the goal pointer is null
 		if (!start || !goal)
+		{
 			//return an empty list
-			return std::vector<Node*>();
-		//end if statement
+			return;
+			//end if statement
+		}
 
 		//Set the start nodes color to be green
 		start->color = ColorToInt(GREEN);
@@ -113,86 +115,86 @@ void Graph::update(float deltaTime)
 
 		//Add start to the open list
 		openList.push_front(start);
-		start->openList(true);
 
 		//Loop while the open list is not empty
-		while (!openList.empty())
+		while (openList.size() > 0)
 		{
 			//Sort the items in the open list by the g score
-			openList = sortQueue(openList);
+			openList = sortList(openList);
 
 			//Set the iterator to be the first item in the open list
-			iterator = openList.front();
+			iterator = openList[0];
 
 			//Check if the iterator is pointing to the goal node
 			if (iterator == goal)
 			{
 				//Mark the goal as being found by changing its color
-				iterator->color = ColorToInt(YELLOW);
+				iterator->color = ColorToInt(RED);
 				//Return the new path found
 				break;
+				//end if statement
 			}
-			//end if statement
 
 			//Pop the first item off the open list
-			openList.front()->openList(false);
 			openList.pop_front();
 
 			//Add the first item to the closed list
 			closedList.push_front(iterator);
-			closedList.front()->closedList(true);
 
 			//Loop through all of the edges for the iterator
 			for (int i = 0; i < iterator->edges.size(); i++)
 			{
 				//Create a node pointer to store the other end of the edge
-				Node* other = nullptr;
+				Node* nodeEdgeEnd = nullptr;
 
 				//Check if the iterator is on the second end of the node
 				if (iterator == iterator->edges[i]->connectedNodeTwo)
+				{
 					//Set the edge end pointer to be the first end of the node
-					other = iterator->edges[i]->connectedNodeOne;
+					nodeEdgeEnd = iterator->edges[i]->connectedNodeOne;
+				}
 				//Otherwise if the iterator is on the first end of the node...
-				else if (iterator == iterator->edges[i]->connectedNodeOne)
+				else
+				{
 					//set the edge end pointer to be the second end of the node
-					other = iterator->edges[i]->connectedNodeTwo;
-				// end if statement
+					nodeEdgeEnd = iterator->edges[i]->connectedNodeTwo;
+					// end if statement
+				}
 
 				//Check if node at the end of the edge is in the closed list
-				if (other->closedList())
+				if (!inList(closedList,nodeEdgeEnd))
 				{
 					//Create an int and set it to be the g score of the iterator plus the cost of the edge
-					int gScore = iterator->gScore + iterator->edges[i]->cost;
+					int costOf = iterator->gScore() + iterator->edges[i]->cost();
 
-					//Check if the node at the end ofthe edge is in the open list
-					if (other->openList())
+					//Check if the node at the end of the edge is in the open list
+					if (!inList(openList, nodeEdgeEnd))
 					{
 						//Mark the node as visited by changing its color
-						other->visited = true;
-						other->color = ColorToInt(RED);
+						nodeEdgeEnd->visited = true;
+						nodeEdgeEnd->color = ColorToInt(PURPLE);
 
 						//Set the nodes g score to be the g score calculated earlier
-						other->gScore = gScore;
+						nodeEdgeEnd->gScore(costOf);
 
 						//Set the nodes previous to be the iterator
-						other->previous = iterator;
+						nodeEdgeEnd->previous(iterator);
 
 						//Add the node to the open list
-						openList.push_front(other);
-						other->openList(true);
+						openList.push_front(nodeEdgeEnd);
 					}
 					//Otherwise if the g score is less than the node at the end of the edge's g score...
-					else if (gScore < other->gScore)
+					else if (costOf < nodeEdgeEnd->gScore())
 					{
 						//Mark the node as visited by changing its color
-						other->visited = true;
-						other->color = ColorToInt(RED);
+						nodeEdgeEnd->visited = true;
+						nodeEdgeEnd->color = ColorToInt(MAGENTA);
 
 						//Set its g score to be the g score calculated earlier
-						other->gScore = gScore;
+						nodeEdgeEnd->gScore(costOf);
 
 						//Set its previous to be the current node
-						other->previous = iterator;
+						nodeEdgeEnd->previous(iterator);
 					}
 				}
 				//end if statement
@@ -201,15 +203,46 @@ void Graph::update(float deltaTime)
 		}
 		//end loop
 
-		// Reverse through previous nodes and store them in a vector to find the path
+		// Compiles the path from goal to start using an iterator which
+		//	is currently the goal node, using its previous to get to the
+		//		start
 		std::vector<Node*> path;
 		while (iterator)
 		{
 			path.push_back(iterator);
-			iterator = iterator->previous;
+			iterator = iterator->previous();
 		}
-		return path;
+		//change the color of the nodes on the path to show the steps taken
+		//	ignoring the start and goal nodes colors which are green and red respectively
+		for (int i = 1; i < path.size() - 1; i++)
+		{
+			path[i]->color = ColorToInt(YELLOW);
+		}
 	}
+
+//std::vector<Node*> Graph::dijkstra(int startX, int startY, int goalX, int goalY)
+//{
+//	Node* start = getNode(startX, startY);
+//	Node* goal = getNode(goalX, goalY);
+//
+//	std::deque<Node*> openList;
+//	std::deque<Node*> closedList;
+//
+//	start->openList(true);
+//	openList.push_front(start);
+//
+//	while (!openList.empty())
+//	{
+//		Node* currentNode = openList.front();
+//		openList.front()->openList(false);
+//		openList.pop_front();
+//
+//		currentNode->closedList(true);
+//		closedList.push_back(currentNode);
+//
+//		float costOf = currentNode->gScore();
+//	}
+//}
 
 	void Graph::astar(int startX, int startY, int goalX, int goalY)
 	{
@@ -273,7 +306,7 @@ void Graph::update(float deltaTime)
 				// end if statement
 				}
 				//Check if node at the end of the edge is in the closed list
-				if (nodeEdgeEnd->closedList())
+				if (inList(closedList, nodeEdgeEnd))
 				{
 					//Create a float and set it to be the g score of the iterator plus the cost of the edge
 					//Create a float and set it to be the h score of the node at the end of the edge
@@ -281,7 +314,7 @@ void Graph::update(float deltaTime)
 					float fScore = 1;
 
 					//Check if the node at the end of the edge is in the open list
-					if (nodeEdgeEnd->openList())
+					if (inList(openList, nodeEdgeEnd))
 					{
 						//Mark the node as visited by changing its color
 						nodeEdgeEnd->color = ColorToInt(YELLOW);
@@ -289,13 +322,12 @@ void Graph::update(float deltaTime)
 						//Set the nodes h score to be the h score calculated earlier
 						//Set the nodes f score to be the f score calculated earlier
 						//Set the nodes previous to be the iterator
-						nodeEdgeEnd->previous = iterator;
+						nodeEdgeEnd->previous(iterator);
 						//Add the node to the open list
-						nodeEdgeEnd->openList(true);
 						openList.push_back(nodeEdgeEnd);
 					}
 					//Otherwise if the f score is less than the node at the end of the edge's f score...
-					else if (fScore < nodeEdgeEnd->gScore)
+					else if (fScore < nodeEdgeEnd->gScore())
 					{
 						//Mark the node as visited by changing its color
 						nodeEdgeEnd->color = ColorToInt(BLUE);
@@ -303,7 +335,7 @@ void Graph::update(float deltaTime)
 						//Set the nodes h score to be the h score calculated earlier
 						//Set its f score to be the f score calculated earlier
 						//Set its previous to be the current node
-						nodeEdgeEnd->previous = iterator;
+						nodeEdgeEnd->previous(iterator);
 					}
 				}
 				//end if statement
@@ -375,13 +407,13 @@ void Graph::createGraph(int nodeSize, int nodeSpacing)
 	}
 }
 
-std::deque<Node*> Graph::sortQueue(std::deque<Node*> queue)
+std::deque<Node*> Graph::sortList(std::deque<Node*> queue)
 {
 	for (int i = 0; i < queue.size(); i++)
 	{
 		for (int j = queue.size(); j > i; j--)
 		{
-			if (queue[i]->gScore > queue[j - 1]->gScore)
+			if (queue[i]->gScore() > queue[j - 1]->gScore())
 			{
 				Node* temp = queue[i];
 				queue[i] = queue[j - 1];
@@ -390,4 +422,15 @@ std::deque<Node*> Graph::sortQueue(std::deque<Node*> queue)
 		}
 	}
 	return queue;
+}
+
+float Graph::inList(std::deque<Node*> list, Node* node)
+{
+	for (int i = 0; i < list.size(); i++)
+		if (list[i] == node)
+		{
+			return true;
+		}
+
+	return false;
 }

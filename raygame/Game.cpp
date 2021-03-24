@@ -44,13 +44,15 @@ void Game::start()
 
 	//PATHFINDING SCENE START
 
-	Graph* graph = new Graph(10, 10, 10, 1);
-	graph->setWorldPostion({ 2,2 });
-    //graph->BFS(0, 0, 9, 9);
-	graph->dijkstra(0, 0, 9, 9);
-	//graph->astar(0, 0, 9, 9);
+	Graph* graph = new Graph(8, 8, 10, 1);
+	Graph* compare = new Graph(8, 8, 10, 1);
+	graph->setWorldPostion({ 1,1 });
+	compare->setWorldPostion({ 10,1 });
+    compare->BFS(0, 0, 7, 7);
+	graph->dijkstra(0, 0, 7, 7);
 	Scene* pathFinding = new Scene();
 	pathFinding->addActor(graph);
+	pathFinding->addActor(compare);
 
 	//PATHFINDING SCENE END
 	m_currentSceneIndex = addScene(pathFinding);
